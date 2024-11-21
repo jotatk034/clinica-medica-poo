@@ -18,8 +18,26 @@ public class Funcionario {
     private String contato;
     private String email;
     private LocalDate dataNascimento;
-
+    private Especialidade especialidade;
     private EnumTipoFuncionario tipoFuncionario;
+    private Perfil perfil;
+
+    public Perfil getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
+    }
+
+    public Especialidade getEspecialidade() {
+        return especialidade;
+    }
+
+    public void setEspecialidade(Especialidade especialidade) {
+        this.especialidade = especialidade;
+    }
+
 
     public int getId() {
         return id;

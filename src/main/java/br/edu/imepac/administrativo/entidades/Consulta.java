@@ -8,8 +8,28 @@ public class Consulta {
     private String sintoma;
     private String diagnostico;
     private boolean estaAtiva;
+    private Funcionario medico;
+    private Funcionario atendente;
+    private Paciente paciente;
+    private Convenio convenio;
+    private Prontuario prontuario;
 
-    // Getters e Setters
+    public Prontuario getProntuario() {
+        return prontuario;
+    }
+
+    public void setProntuario(Prontuario prontuario) {
+        this.prontuario = prontuario;
+    }
+
+    public Convenio getConvenio() {
+        return convenio;
+    }
+
+    public void setConvenio(Convenio convenio) {
+        this.convenio = convenio;
+    }
+
     public int getId() {
         return id;
     }
@@ -48,5 +68,29 @@ public class Consulta {
 
     public void setEstaAtiva(boolean estaAtiva) {
         this.estaAtiva = estaAtiva;
+    }
+
+    public Funcionario getMedico() {
+        return medico;
+    }
+
+    public void setMedico(Funcionario medico) {
+        this.medico = medico;
+    }
+
+    public Funcionario getAtendente() {
+        return atendente;
+    }
+
+    public void setAtendente(Funcionario atendente) {
+        this.atendente = atendente;
+    }
+
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
     }
 }
