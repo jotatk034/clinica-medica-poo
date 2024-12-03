@@ -75,7 +75,7 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Cadastrar Funcionario");
+        jLabel1.setText("Cadastrar Funcionário");
 
         jLabel2.setText("Usuário");
 
@@ -89,7 +89,7 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setText("idade");
+        jLabel5.setText("Idade");
 
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

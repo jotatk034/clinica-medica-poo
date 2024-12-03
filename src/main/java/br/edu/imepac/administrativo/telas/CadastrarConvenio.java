@@ -51,7 +51,7 @@ public class CadastrarConvenio extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Cadastro de Convenio");
+        jLabel1.setText("Cadastro de Convênio");
 
         jLabel2.setText("Nome");
 

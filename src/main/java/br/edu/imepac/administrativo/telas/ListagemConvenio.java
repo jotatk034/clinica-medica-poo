@@ -37,7 +37,7 @@ public class ListagemConvenio extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Listagem Convenio");
+        jLabel1.setText("Listagem Convênio");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
