@@ -1,6 +1,7 @@
 package br.edu.imepac.administrativo.entidades;
 
 public class Perfil {
+
     private int id;
     private String nome;
     private boolean cadastrarFuncionario;
@@ -34,9 +35,10 @@ public class Perfil {
     private boolean deletarProntuario;
     private boolean listarProntuario;
 
-    public int getId(){
+    public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -44,7 +46,8 @@ public class Perfil {
     public String getNome() {
         return nome;
     }
-    public void setNome(String nome){
+
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
@@ -160,7 +163,6 @@ public class Perfil {
         this.deletarConsulta = deletarConsulta;
     }
 
-
     public boolean isListarConsulta() {
         return listarConsulta;
     }
@@ -169,7 +171,6 @@ public class Perfil {
         this.listarConsulta = listarConsulta;
     }
 
-
     public boolean isCadastrarEspecialidade() {
         return cadastrarEspecialidade;
     }
@@ -177,7 +178,6 @@ public class Perfil {
     public void setCadastrarEspecialidade(boolean cadastrarEspecialidade) {
         this.cadastrarEspecialidade = cadastrarEspecialidade;
     }
-
 
     public boolean isLerEspecialidade() {
         return lerEspecialidade;
@@ -194,7 +194,6 @@ public class Perfil {
     public void setAtualizarEspecialidade(boolean atualizarEspecialidade) {
         this.atualizarEspecialidade = atualizarEspecialidade;
     }
-
 
     public boolean isDeletarEspecialidade() {
         return deletarEspecialidade;

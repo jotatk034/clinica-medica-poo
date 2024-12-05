@@ -9,6 +9,7 @@ public class Paciente {
     private String senha;
     private char sexo;
     private String cpf;
+    private String endereco;
     private String rua;
     private String numero;
     private String complemento;
@@ -19,16 +20,18 @@ public class Paciente {
     private String email;
     private LocalDate dataNascimento;
 
-    public int getID(){
+    public int getId() {
         return id;
     }
-    public void setId(int id){
+
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getNome(){
+    public String getNome() {
         return nome;
     }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -63,6 +66,14 @@ public class Paciente {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 
     public String getRua() {

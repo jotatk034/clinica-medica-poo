@@ -5,7 +5,6 @@ public class Especialidade {
     private String nome;
     private String descricao;
 
-    // Getters e Setters
     public int getId() {
         return id;
     }

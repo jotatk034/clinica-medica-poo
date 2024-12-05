@@ -8,7 +8,7 @@ import java.util.List;
 public class PerfilDAO {
 
     public void criar(Perfil perfil) throws SQLException {
-        String sql = "INSERT INTO Perfil (nome, descricao) VALUES (?, ?)";
+        String sql = "INSERT INTO Perfil (nome) VALUES (?)";
         try (Connection conn = ConexaoDatabase.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, perfil.getNome());
@@ -33,11 +33,11 @@ public class PerfilDAO {
     }
 
     public void atualizar(Perfil perfil) throws SQLException {
-        String sql = "UPDATE Perfil SET nome = ?, descricao = ? WHERE id = ?";
+        String sql = "UPDATE Perfil SET nome = ? WHERE id = ?";
         try (Connection conn = ConexaoDatabase.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, perfil.getNome());
-            stmt.setInt(3, perfil.getId());
+            stmt.setInt(2, perfil.getId());
             stmt.executeUpdate();
         }
     }
