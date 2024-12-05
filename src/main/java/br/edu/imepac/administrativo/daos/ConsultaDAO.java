@@ -21,7 +21,7 @@ public class ConsultaDAO extends BaseDAO<Consulta> {
             stmt.setBoolean(4, consulta.isEstaAtiva());
             stmt.setInt(5, consulta.getMedico().getId());
             stmt.setInt(6, consulta.getAtendente().getId());
-            stmt.setInt(7, consulta.getPaciente().getID());
+            stmt.setInt(7, consulta.getPaciente().getId());
             stmt.setInt(8, consulta.getConvenio().getId());
             stmt.setInt(9, consulta.getProntuario().getId());
             stmt.executeUpdate();
@@ -50,7 +50,7 @@ public class ConsultaDAO extends BaseDAO<Consulta> {
             stmt.setBoolean(4, consulta.isEstaAtiva());
             stmt.setInt(5, consulta.getMedico().getId());
             stmt.setInt(6, consulta.getAtendente().getId());
-            stmt.setInt(7, consulta.getPaciente().getID());
+            stmt.setInt(7, consulta.getPaciente().getId());
             stmt.setInt(8, consulta.getConvenio().getId());
             stmt.setInt(9, consulta.getProntuario().getId());
             stmt.setInt(10, consulta.getId());
