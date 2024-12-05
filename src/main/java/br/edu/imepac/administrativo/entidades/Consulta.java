@@ -14,22 +14,6 @@ public class Consulta {
     private Convenio convenio;
     private Prontuario prontuario;
 
-    public Prontuario getProntuario() {
-        return prontuario;
-    }
-
-    public void setProntuario(Prontuario prontuario) {
-        this.prontuario = prontuario;
-    }
-
-    public Convenio getConvenio() {
-        return convenio;
-    }
-
-    public void setConvenio(Convenio convenio) {
-        this.convenio = convenio;
-    }
-
     public int getId() {
         return id;
     }
@@ -54,14 +38,6 @@ public class Consulta {
         this.sintoma = sintoma;
     }
 
-    public String getDiagnostico() {
-        return diagnostico;
-    }
-
-    public void setDiagnostico(String diagnostico) {
-        this.diagnostico = diagnostico;
-    }
-
     public boolean isEstaAtiva() {
         return estaAtiva;
     }
@@ -70,12 +46,12 @@ public class Consulta {
         this.estaAtiva = estaAtiva;
     }
 
-    public Funcionario getMedico() {
-        return medico;
+    public String getDiagnostico() {
+        return diagnostico;
     }
 
-    public void setMedico(Funcionario medico) {
-        this.medico = medico;
+    public void setDiagnostico(String diagnostico) {
+        this.diagnostico = diagnostico;
     }
 
     public Funcionario getAtendente() {
@@ -86,11 +62,35 @@ public class Consulta {
         this.atendente = atendente;
     }
 
+    public Funcionario getMedico() {
+        return medico;
+    }
+
+    public void setMedico(Funcionario medico) {
+        this.medico = medico;
+    }
+
     public Paciente getPaciente() {
         return paciente;
     }
 
     public void setPaciente(Paciente paciente) {
         this.paciente = paciente;
+    }
+
+    public Convenio getConvenio() {
+        return convenio;
+    }
+
+    public void setConvenio(Convenio convenio) {
+        this.convenio = convenio;
+    }
+
+    public Prontuario getProntuario() {
+        return prontuario;
+    }
+
+    public void setProntuario(Prontuario prontuario) {
+        this.prontuario = prontuario;
     }
 }
