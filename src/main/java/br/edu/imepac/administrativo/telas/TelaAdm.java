@@ -63,6 +63,7 @@ public class TelaAdm extends javax.swing.JFrame {
         jButton30 = new javax.swing.JButton();
         jButton31 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -381,6 +382,8 @@ public class TelaAdm extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Administrador");
 
+        jButton1.setText("Sair");
+
         javax.swing.GroupLayout BaseLayout = new javax.swing.GroupLayout(Base);
         Base.setLayout(BaseLayout);
         BaseLayout.setHorizontalGroup(
@@ -406,6 +409,10 @@ public class TelaAdm extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(Funcionario1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(114, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BaseLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
         BaseLayout.setVerticalGroup(
             BaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -427,7 +434,9 @@ public class TelaAdm extends javax.swing.JFrame {
                         .addGap(30, 30, 30))
                     .addGroup(BaseLayout.createSequentialGroup()
                         .addComponent(Consulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addContainerGap())))
         );
 
         setJMenuBar(jMenuBar1);
@@ -518,6 +527,7 @@ public class TelaAdm extends javax.swing.JFrame {
     private javax.swing.JPanel Paciente;
     private javax.swing.JPanel Paciente1;
     private javax.swing.JPanel Perfil;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton17;
     private javax.swing.JButton jButton18;
     private javax.swing.JButton jButton19;
