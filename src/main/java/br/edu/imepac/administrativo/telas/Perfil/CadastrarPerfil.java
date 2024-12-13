@@ -328,7 +328,57 @@ public class CadastrarPerfil extends javax.swing.JFrame {
     }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+String nomePerfil = jTextField1.getText();
+boolean cadastrarFuncionario = jCheckBox1.isSelected();
+boolean lerFuncionario = jCheckBox2.isSelected();
+boolean atualizarFuncionario = jCheckBox3.isSelected();
+boolean deletarFuncionario = jCheckBox4.isSelected();
+boolean cadastrarPaciente = jCheckBox5.isSelected();
+boolean atualizarPaciente = jCheckBox6.isSelected();
+boolean deletarPaciente = jCheckBox7.isSelected();
+boolean listarPaciente = jCheckBox8.isSelected();
+boolean cadastrarConsulta = jCheckBox9.isSelected();
+boolean atualizarConsulta = jCheckBox10.isSelected();
+boolean deletarConsulta = jCheckBox11.isSelected();
+boolean listarConsulta = jCheckBox12.isSelected();
+boolean cadastrarProntuario = jCheckBox13.isSelected();
+boolean atualizarProntuario = jCheckBox14.isSelected();
+boolean deletarProntuario = jCheckBox15.isSelected();
+boolean listarProntuario = jCheckBox16.isSelected();
+
+String sql = "INSERT INTO perfil (nome, cadastrarFuncionario, lerFuncionario, atualizarFuncionario, "
+        + "deletarFuncionario, cadastrarPaciente, atualizarPaciente, deletarPaciente, "
+        + "listarPaciente, cadastrarConsulta, atualizarConsulta, deletarConsulta, "
+        + "listarConsulta, cadastrarProntuario, atualizarProntuario, deletarProntuario, "
+        + "listarProntuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (java.sql.Connection con = java.sql.DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/clinica_medica_poo", "root", "12345");
+             java.sql.PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setString(1, nomePerfil);
+stmt.setBoolean(2, cadastrarFuncionario);
+stmt.setBoolean(3, lerFuncionario);
+stmt.setBoolean(4, atualizarFuncionario);
+stmt.setBoolean(5, deletarFuncionario);
+stmt.setBoolean(6, cadastrarPaciente);
+stmt.setBoolean(7, atualizarPaciente);
+stmt.setBoolean(8, deletarPaciente);
+stmt.setBoolean(9, listarPaciente);
+stmt.setBoolean(10, cadastrarConsulta);
+stmt.setBoolean(11, atualizarConsulta);
+stmt.setBoolean(12, deletarConsulta);
+stmt.setBoolean(13, listarConsulta);
+stmt.setBoolean(14, cadastrarProntuario);
+stmt.setBoolean(15, atualizarProntuario);
+stmt.setBoolean(16, deletarProntuario);
+stmt.setBoolean(17, listarProntuario);
+
+            stmt.executeUpdate();
+            javax.swing.JOptionPane.showMessageDialog(this, "Perfil salvo com sucesso!");
+        } catch (java.sql.SQLException ex) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Erro ao salvar perfil: " + ex.getMessage());
+        }
     }
 
     /**
