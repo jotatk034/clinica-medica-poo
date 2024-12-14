@@ -4,6 +4,16 @@
  */
 
 package br.edu.imepac.administrativo.telas.Consulta;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -11,10 +21,94 @@ package br.edu.imepac.administrativo.telas.Consulta;
  */
 public class EditarConsulta extends javax.swing.JFrame {
 
+    private Label jTextFieldId;
+
+    public class Conexao {
+        public static Connection getConnection() throws SQLException {
+            try {
+                // Alterar os dados conforme seu banco de dados
+                String url = "jdbc:mysql://localhost:3306/clinica_medica_poo";
+                String user = "root";
+                String password = "0101";
+                return DriverManager.getConnection(url, user, password);
+            } catch (SQLException e) {
+                throw new SQLException("Erro ao conectar ao banco de dados.", e);
+            }
+        }
+    }
+
+    private void carregarMedicos() {
+        try {
+            Connection conn = Conexao.getConnection();
+            String sql = "SELECT * FROM medico";
+            java.sql.Statement stmt = conn.createStatement();
+            java.sql.ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                String nomeMedico = rs.getString("nome");
+                jComboBox2.addItem(nomeMedico);  // Preenche o JComboBox de médicos
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     /** Creates new form CadastrarConsulta */
     public EditarConsulta() {
         initComponents();
         this.setLocationRelativeTo(null);
+        carregarMedicos();
+    }
+
+    private void salvarConsulta() {
+        try {
+            Connection conn = Conexao.getConnection();
+
+            String sql = "UPDATE consulta SET data_hora = ?, sintomas = ?, retorno = ?, medico = ?, paciente = ?, convenio = ?, status = ?, atendente = ? WHERE id = ?";
+            java.sql.PreparedStatement stmt = conn.prepareStatement(sql);
+
+            // Pegue os dados dos campos e defina no PreparedStatement
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            Date date = sdf.parse(jTextField1.getText());
+            stmt.setTimestamp(1, new java.sql.Timestamp(date.getTime()));  // Data e Hora
+
+            stmt.setString(2, jTextField2.getText());  // Sintomas
+            stmt.setString(3, jComboBox1.getSelectedItem().toString());  // Retorno
+            stmt.setString(4, jComboBox2.getSelectedItem().toString());  // Médico
+            stmt.setString(5, jComboBox3.getSelectedItem().toString());  // Paciente
+            stmt.setString(6, jComboBox4.getSelectedItem().toString());  // Convênio
+            stmt.setString(7, jComboBox5.getSelectedItem().toString());  // Status
+            stmt.setString(8, jComboBox6.getSelectedItem().toString());  // Atendente
+            stmt.setInt(9, Integer.parseInt(jTextFieldId.getText()));  // ID da consulta
+
+
+            stmt.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Consulta salva com sucesso!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao salvar consulta.");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void apagarConsulta() {
+        try {
+            Connection conn = Conexao.getConnection();
+
+            String sql = "DELETE FROM consulta WHERE id = ?";
+            java.sql.PreparedStatement stmt = conn.prepareStatement(sql);
+
+            // Pega o ID da consulta a ser apagada
+            stmt.setInt(1, Integer.parseInt(jTextField1.getText()));  // ID da consulta
+            stmt.executeUpdate();
+
+            JOptionPane.showMessageDialog(this, "Consulta apagada com sucesso!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao apagar consulta.");
+        }
     }
 
     /** This method is called from within the constructor to

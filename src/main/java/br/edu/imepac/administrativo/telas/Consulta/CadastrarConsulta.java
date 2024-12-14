@@ -4,6 +4,7 @@
  */
 
 package br.edu.imepac.administrativo.telas.Consulta;
+import java.sql.*;
 
 /**
  *
@@ -11,11 +12,188 @@ package br.edu.imepac.administrativo.telas.Consulta;
  */
 public class CadastrarConsulta extends javax.swing.JFrame {
 
+    private Statement Conexao;
+
+    private void carregarComboboxes() {
+        try {
+            // Estabelece a conexão com o banco de dados
+            Connection conn = Conexao.getConnection();
+
+            // Consulta para obter os médicos
+            String sqlMedicos = "SELECT nome FROM medico";
+            Statement stmtMedicos = conn.createStatement();
+            ResultSet rsMedicos = stmtMedicos.executeQuery(sqlMedicos);
+
+            // Preencher o JComboBox de médicos
+            while (rsMedicos.next()) {
+                jComboBox1.addItem(rsMedicos.getString("nome"));
+            }
+
+            // Consulta para obter os pacientes
+            String sqlPacientes = "SELECT nome FROM paciente";
+            Statement stmtPacientes = conn.createStatement();
+            ResultSet rsPacientes = stmtPacientes.executeQuery(sqlPacientes);
+
+            // Preencher o JComboBox de pacientes
+            while (rsPacientes.next()) {
+                jComboBox2.addItem(rsPacientes.getString("nome"));
+            }
+
+            // Consulta para obter os convênios
+            String sqlConvenios = "SELECT nome FROM convenio";
+            Statement stmtConvenios = conn.createStatement();
+            ResultSet rsConvenios = stmtConvenios.executeQuery(sqlConvenios);
+
+            // Preencher o JComboBox de convênios
+            while (rsConvenios.next()) {
+                jComboBox3.addItem(rsConvenios.getString("nome"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Método para estabelecer a conexão com o banco de dados
+    public Connection conectarBanco() {
+        Connection conexao = null;
+        try {
+            // URL de conexão com o banco (altere conforme necessário)
+            String url = "jdbc:mysql://localhost:3306/clinica_medica_poo";
+            String usuario = "root";  // Usuário do MySQL
+            String senha = "0101";    // Senha do MySQL
+
+            // Estabelecendo a conexão
+            conexao = DriverManager.getConnection(url, usuario, senha);
+            System.out.println("Conexão estabelecida com o banco de dados!");
+        } catch (SQLException e) {
+            System.out.println("Erro ao conectar com o banco de dados: " + e.getMessage());
+        }
+        return conexao;
+    }
     /** Creates new form CadastrarConsulta */
     public CadastrarConsulta() {
         initComponents();
         this.setLocationRelativeTo(null);
+
+        // Adiciona o ActionListener ao botão "Salvar"
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salvarConsulta();  // Chama o método que faz a inserção no banco
+            }
+        });
     }
+
+    // Método para salvar consulta no banco
+    private void salvarConsulta() {
+        // Captura os dados dos campos
+        String dataHora = jTextField1.getText();  // Data e Hora
+        String sintomas = jTextField2.getText();  // Sintomas
+        String retorno = jComboBox1.getSelectedItem().toString();  // Retorno
+        String medico = jComboBox2.getSelectedItem().toString();  // Médico
+        String paciente = jComboBox3.getSelectedItem().toString();  // Paciente
+        String convenio = jComboBox4.getSelectedItem().toString();  // Convênio
+
+        // Converte 'Sim' para 1 e 'Não' para 0 para o campo 'retorno'
+        int retornoValor = retorno.equals("Sim") ? 1 : 0;
+
+        // Obtém os IDs do médico, paciente e convênio
+        int medicoId = getMedicoId(medico);  // Método para pegar ID do médico
+        int pacienteId = getPacienteId(paciente);  // Método para pegar ID do paciente
+        int convenioId = getConvenioId(convenio);  // Método para pegar ID do convênio
+
+        // Conecta com o banco
+        Connection conexao = conectarBanco();
+        if (conexao != null) {
+            // Realiza a inserção no banco
+            try {
+                String sql = "INSERT INTO consulta (SINTOMA, DIAGNOSTICO, data_horario, esta_ativa, medico_id, paciente_id, convenio_id, atendente_id, prontuario_id, retorno) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                var stmt = conexao.prepareStatement(sql);
+
+                // Atribui os valores aos parâmetros da consulta
+                stmt.setString(1, sintomas);  // Sintomas
+                stmt.setString(2, "Exemplo de Diagnóstico");  // Diagnóstico (exemplo)
+                stmt.setString(3, dataHora);  // Data e Hora
+                stmt.setInt(4, 1);  // Esta ativa (Exemplo)
+                stmt.setInt(5, medicoId);  // Médico
+                stmt.setInt(6, pacienteId);  // Paciente
+                stmt.setInt(7, convenioId);  // Convênio
+                stmt.setInt(8, 1);  // Atendente (exemplo)
+                stmt.setInt(9, 1);  // Prontuário (exemplo)
+                stmt.setInt(10, retornoValor);  // Retorno (0 ou 1)
+
+                // Executa a inserção
+                stmt.executeUpdate();
+                System.out.println("Consulta salva com sucesso!");
+            } catch (SQLException e) {
+                System.out.println("Erro ao salvar a consulta: " + e.getMessage());
+            }
+        }
+    }
+
+    // Método para obter o ID do médico com base no nome
+    private int getMedicoId(String nomeMedico) {
+        int id = 0;
+        try {
+            Connection conn = conectarBanco();
+            String sql = "SELECT nome FROM medico WHERE id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, nomeMedico);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt("id");
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar o nome do médico: " + e.getMessage());
+        }
+        return id;
+    }
+
+    // Método para obter o ID do paciente com base no nome
+    private int getPacienteId(String nomePaciente) {
+        int id = 0;
+        try {
+            Connection conn = conectarBanco();
+            String sql = "SELECT nome FROM paciente WHERE id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, nomePaciente);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt("id");
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar o ID do paciente: " + e.getMessage());
+        }
+        return id;
+    }
+
+    // Método para obter o ID do convênio com base no nome
+    private int getConvenioId(String nomeConvenio) {
+        int id = 0;
+        try {
+            Connection conn = conectarBanco();
+            String sql = "SELECT nome FROM convenio WHERE id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, nomeConvenio);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt("id");
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar o ID do convênio: " + e.getMessage());
+        }
+        return id;
+    }
+
 
     /** This method is called from within the constructor to
      * initialize the form.
