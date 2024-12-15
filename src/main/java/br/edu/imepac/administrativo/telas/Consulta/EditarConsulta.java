@@ -29,7 +29,7 @@ public class EditarConsulta extends javax.swing.JFrame {
                 // Alterar os dados conforme seu banco de dados
                 String url = "jdbc:mysql://localhost:3306/clinica_medica_poo";
                 String user = "root";
-                String password = "0101";
+                String password = "12345";
                 return DriverManager.getConnection(url, user, password);
             } catch (SQLException e) {
                 throw new SQLException("Erro ao conectar ao banco de dados.", e);

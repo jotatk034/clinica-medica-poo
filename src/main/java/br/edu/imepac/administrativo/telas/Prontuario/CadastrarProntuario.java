@@ -3,7 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package br.edu.imepac.administrativo.telas.Prontuario;
+import br.edu.imepac.administrativo.daos.ConexaoDatabase;
 
+import javax.swing.*;
+import java.sql.*;
 /**
  *
  * @author User
@@ -16,8 +19,111 @@ public class CadastrarProntuario extends javax.swing.JFrame {
     public CadastrarProntuario() {
         initComponents();
         this.setLocationRelativeTo(null);
+        preencherComboBoxMedicos();
+        preencherComboBoxPacientes();
+        preencherComboBoxIdConsulta();
+        // Adicionando ação ao botão "Salvar"
+        jButton1.addActionListener(evt -> salvarDados());
     }
 
+    private void preencherComboBoxMedicos() {
+        try {
+            // Obtendo conexão com o banco
+            Connection conn = ConexaoDatabase.getConnection();
+            Statement stmt = conn.createStatement();
+            String query = "SELECT nome FROM medico"; // Supondo que a tabela de médicos se chama 'medico'
+            ResultSet rs = stmt.executeQuery(query);
+
+            // Adicionando os médicos ao ComboBox
+            while (rs.next()) {
+                jComboBox1.addItem(rs.getString("nome"));
+            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Método para preencher o ComboBox de pacientes
+    private void preencherComboBoxPacientes() {
+        try {
+            // Obtendo conexão com o banco
+            Connection conn = ConexaoDatabase.getConnection();
+            Statement stmt = conn.createStatement();
+            String query = "SELECT nome FROM paciente"; // Supondo que a tabela de pacientes se chama 'paciente'
+            ResultSet rs = stmt.executeQuery(query);
+
+            // Adicionando os pacientes ao ComboBox
+            while (rs.next()) {
+                jComboBox2.addItem(rs.getString("nome"));
+            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void preencherComboBoxIdConsulta() {
+        try {
+            // Obtendo conexão com o banco
+            Connection conn = ConexaoDatabase.getConnection();
+            Statement stmt = conn.createStatement();
+            String query = "SELECT ID FROM consulta"; // Supondo que a tabela de pacientes se chama 'paciente'
+            ResultSet rs = stmt.executeQuery(query);
+
+            // Adicionando os pacientes ao ComboBox
+            while (rs.next()) {
+                jComboBox3.addItem(rs.getString("ID"));
+            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void salvarDados() {
+        String receituario = jEditorPane2.getText();
+        String exames = jEditorPane3.getText();
+        String observacoes = jEditorPane4.getText();
+        String medico = jComboBox1.getSelectedItem().toString();
+        String paciente = jComboBox2.getSelectedItem().toString();
+        String idConsulta = jComboBox3.getSelectedItem().toString();
+
+        try {
+            // Obtendo conexão com o banco
+            Connection conn = ConexaoDatabase.getConnection();
+            String query = "INSERT INTO prontuario (id_consulta, medico, paciente, receituario, exames, observacoes) VALUES (?, ?, ?, ?, ?, ?)";
+
+            // Preparando a statement para inserir os dados
+            var stmt = conn.prepareStatement(query);
+            stmt.setString(1, idConsulta); // ID da consulta
+            stmt.setString(2, medico);     // Médico
+            stmt.setString(3, paciente);   // Paciente
+            stmt.setString(4, receituario); // Receituário
+            stmt.setString(5, exames);      // Exames
+            stmt.setString(6, observacoes); // Observações
+
+            // Executando o insert
+            stmt.executeUpdate();
+
+            // Fechando a conexão
+            stmt.close();
+            conn.close();
+
+            // Exibindo uma mensagem de sucesso
+            JOptionPane.showMessageDialog(this, "Dados salvos com sucesso!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao salvar os dados.");
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -42,10 +148,12 @@ public class CadastrarProntuario extends javax.swing.JFrame {
         jEditorPane4 = new javax.swing.JEditorPane();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        ComboBox_Medico = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
-        ComboBox_Paciente = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBox3 = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -53,13 +161,13 @@ public class CadastrarProntuario extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Cadastro Prontuário");
+        jLabel1.setText("Cadastro Prontuario");
 
         jLabel3.setText("Dados de Consulta Agendada");
 
         jScrollPane2.setViewportView(jEditorPane2);
 
-        jLabel2.setText("Receituário");
+        jLabel2.setText("Receituario");
 
         jLabel5.setText("Exames");
 
@@ -73,84 +181,94 @@ public class CadastrarProntuario extends javax.swing.JFrame {
 
         jButton2.setText("Cancelar");
 
-        jLabel7.setText("Médico");
+        jLabel7.setText("Paciente");
 
-        jLabel8.setText("Paciente");
+        jLabel8.setText("Médico");
+
+        jLabel9.setText("ID Consulta");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
                 jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(179, 179, 179)
-                                .addComponent(jButton1)
-                                .addGap(41, 41, 41)
-                                .addComponent(jButton2)
-                                .addContainerGap(173, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                                .addComponent(jLabel3)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jLabel6)
-                                                .addGap(54, 54, 54))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
                                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jLabel2)
-                                                        .addComponent(jLabel8)
-                                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                                .addComponent(ComboBox_Paciente, javax.swing.GroupLayout.Alignment.LEADING, 0, 158, Short.MAX_VALUE)
-                                                                .addComponent(ComboBox_Medico, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                                .addGap(6, 6, 6)
-                                                .addComponent(jScrollPane3))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                        .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING))
-                                                .addGap(0, 0, Short.MAX_VALUE)))
-                                .addGap(46, 46, 46))
+                                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                                                .addComponent(jLabel3)
+                                                                .addGap(140, 140, 140)
+                                                                .addComponent(jLabel6))
+                                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                                                .addGap(135, 135, 135)
+                                                                .addComponent(jButton1)
+                                                                .addGap(29, 29, 29)
+                                                                .addComponent(jButton2)))
+                                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                .addComponent(jLabel7)
+                                                                .addComponent(jLabel8)
+                                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                                        .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.LEADING, 0, 158, Short.MAX_VALUE)
+                                                                        .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                                        .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addGap(72, 72, 72)
+                                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(34, 34, 34))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 597, Short.MAX_VALUE)
+                                                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING))
+                                                .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(16, 16, 16)
+                                        .addComponent(jLabel9)
+                                        .addContainerGap(561, Short.MAX_VALUE)))
         );
         jPanel2Layout.setVerticalGroup(
                 jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addContainerGap()
-                                                .addComponent(jLabel3))
-                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addGap(17, 17, 17)
-                                                .addComponent(jLabel6)))
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel7)
-                                                .addGap(4, 4, 4)
-                                                .addComponent(ComboBox_Medico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jLabel8)
-                                                .addGap(3, 3, 3)
-                                                .addComponent(ComboBox_Paciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(23, 23, 23)
-                                                .addComponent(jLabel2))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                                .addGap(21, 21, 21)
-                                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel5)
+                                .addContainerGap()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel3)
+                                        .addComponent(jLabel6))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(40, 40, 40)
+                                                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jButton1)
                                         .addComponent(jButton2))
-                                .addGap(38, 38, 38))
+                                .addContainerGap(9, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(176, 176, 176)
+                                        .addComponent(jLabel9)
+                                        .addContainerGap(350, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -216,7 +334,6 @@ public class CadastrarProntuario extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(CadastrarProntuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -227,10 +344,11 @@ public class CadastrarProntuario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify
-    private javax.swing.JComboBox<String> ComboBox_Medico;
-    private javax.swing.JComboBox<String> ComboBox_Paciente;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JEditorPane jEditorPane2;
     private javax.swing.JEditorPane jEditorPane3;
     private javax.swing.JEditorPane jEditorPane4;
@@ -241,6 +359,7 @@ public class CadastrarProntuario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;

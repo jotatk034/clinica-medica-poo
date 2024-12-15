@@ -105,7 +105,9 @@ public class EditarFuncionario extends javax.swing.JFrame {
                 jTextField54.setText(rs.getString("dataNascimento") != null ? rs.getString("dataNascimento") : "");  // Preenche o campo 'dataNascimento'
                 jTextField51.setText(rs.getString("idade") != null ? rs.getString("idade") : "");     // Preenche o campo 'idade'
                 jComboBox18.setSelectedItem(rs.getString("especialidade") != null ? rs.getString("especialidade") : "");  // Preenche o ComboBox de especialidade
-                jComboBox19.setSelectedItem(rs.getString("perfil") != null ? rs.getString("perfil") : "");        // Preenche o ComboBox de perfil
+                jComboBox19.setSelectedItem(rs.getString("perfil") != null ? rs.getString("perfil") : "");
+                String idFuncionarioStr = (String) jComboBox1.getSelectedItem();
+                String id = idFuncionarioStr.split(" - ")[0];// Preenche o ComboBox de perfil
 
                 // Preenche o ComboBox de tipo de funcionário baseado no ID
                 String tipoFuncionario = rs.getInt("tipoFuncionario_id") == 1 ? "Atendente" :
@@ -120,7 +122,10 @@ public class EditarFuncionario extends javax.swing.JFrame {
     // Salva as alterações do funcionário no banco de dados
     // Salva ou atualiza o funcionário no banco de dados
     private void salvarFuncionario() {
-        String idFuncionario = (String) jComboBox1.getSelectedItem();
+        // Extrair apenas o ID do item selecionado no ComboBox
+        String idFuncionarioStr = (String) jComboBox1.getSelectedItem();
+        String idFuncionario = idFuncionarioStr != null ? idFuncionarioStr.split(" - ")[0] : null;
+
         String nome = jTextField50.getText();
         String usuario = jTextField49.getText();
         String senha = new String(jPasswordField5.getPassword());
@@ -196,6 +201,7 @@ public class EditarFuncionario extends javax.swing.JFrame {
 
                     conn.commit();
                     JOptionPane.showMessageDialog(this, "Funcionário salvo com sucesso!");
+                    popularComboBoxIdFuncionario(); // Atualiza o ComboBox após salvar
                 } else {
                     JOptionPane.showMessageDialog(this, "Erro ao salvar o funcionário.");
                 }
@@ -209,9 +215,12 @@ public class EditarFuncionario extends javax.swing.JFrame {
     }
 
 
+
     // Apaga um funcionário do banco de dados
     private void apagarFuncionario() {
-        String idFuncionario = (String) jComboBox1.getSelectedItem();
+        // Extrair apenas o ID do item selecionado no ComboBox (id - nome)
+        String idFuncionarioStr = (String) jComboBox1.getSelectedItem();
+        String idFuncionario = idFuncionarioStr != null ? idFuncionarioStr.split(" - ")[0] : null;
 
         int confirm = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja apagar o funcionário?",
                 "Confirmar Exclusão", JOptionPane.YES_NO_OPTION);
@@ -220,6 +229,7 @@ public class EditarFuncionario extends javax.swing.JFrame {
             try (Connection conn = ConexaoDatabase.getConnection()) {
                 conn.setAutoCommit(false);
 
+                // Deleta o funcionário pelo id
                 String sql = "DELETE FROM funcionario WHERE id = ?";
                 try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                     stmt.setString(1, idFuncionario);
@@ -228,7 +238,7 @@ public class EditarFuncionario extends javax.swing.JFrame {
                     if (rowsDeleted > 0) {
                         conn.commit();
                         JOptionPane.showMessageDialog(this, "Funcionário apagado com sucesso!");
-                        popularComboBoxIdFuncionario();
+                        popularComboBoxIdFuncionario(); // Atualiza o ComboBox após excluir
                     } else {
                         JOptionPane.showMessageDialog(this, "Erro ao apagar o funcionário.");
                     }
@@ -241,6 +251,7 @@ public class EditarFuncionario extends javax.swing.JFrame {
             }
         }
     }
+
 
 
 

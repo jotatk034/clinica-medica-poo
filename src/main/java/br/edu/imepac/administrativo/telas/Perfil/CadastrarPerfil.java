@@ -16,6 +16,7 @@ public class CadastrarPerfil extends javax.swing.JFrame {
     public CadastrarPerfil() {
         initComponents();
         this.setLocationRelativeTo(null);
+
     }
 
     /**
@@ -328,58 +329,74 @@ public class CadastrarPerfil extends javax.swing.JFrame {
     }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
-String nomePerfil = jTextField1.getText();
-boolean cadastrarFuncionario = jCheckBox1.isSelected();
-boolean lerFuncionario = jCheckBox2.isSelected();
-boolean atualizarFuncionario = jCheckBox3.isSelected();
-boolean deletarFuncionario = jCheckBox4.isSelected();
-boolean cadastrarPaciente = jCheckBox5.isSelected();
-boolean atualizarPaciente = jCheckBox6.isSelected();
-boolean deletarPaciente = jCheckBox7.isSelected();
-boolean listarPaciente = jCheckBox8.isSelected();
-boolean cadastrarConsulta = jCheckBox9.isSelected();
-boolean atualizarConsulta = jCheckBox10.isSelected();
-boolean deletarConsulta = jCheckBox11.isSelected();
-boolean listarConsulta = jCheckBox12.isSelected();
-boolean cadastrarProntuario = jCheckBox13.isSelected();
-boolean atualizarProntuario = jCheckBox14.isSelected();
-boolean deletarProntuario = jCheckBox15.isSelected();
-boolean listarProntuario = jCheckBox16.isSelected();
+        // Coleta o nome do perfil a partir do campo de texto
+        String nomePerfil = jTextField1.getText();
 
-String sql = "INSERT INTO perfil (nome, cadastrarFuncionario, lerFuncionario, atualizarFuncionario, "
-        + "deletarFuncionario, cadastrarPaciente, atualizarPaciente, deletarPaciente, "
-        + "listarPaciente, cadastrarConsulta, atualizarConsulta, deletarConsulta, "
-        + "listarConsulta, cadastrarProntuario, atualizarProntuario, deletarProntuario, "
-        + "listarProntuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        // Coleta os valores de seleção das caixas de seleção (check boxes)
+        boolean cadastrarFuncionario = jCheckBox1.isSelected();
+        boolean listarFuncionario = jCheckBox2.isSelected();
+        boolean editarFuncionario = jCheckBox3.isSelected();
+        boolean listarPaciente = jCheckBox4.isSelected();
+        boolean cadastrarPaciente = jCheckBox5.isSelected();
+        boolean editarPaciente = jCheckBox6.isSelected();
+        boolean listarProntuario = jCheckBox7.isSelected();
+        boolean cadastrarProntuario = jCheckBox8.isSelected();
+        boolean editarProntuario = jCheckBox9.isSelected();
+        boolean listarConsulta = jCheckBox10.isSelected();
+        boolean cadastrarConsulta = jCheckBox11.isSelected();
+        boolean editarConsulta = jCheckBox12.isSelected();
+        boolean listarEspecialidade = jCheckBox13.isSelected();
+        boolean cadastrarEspecialidade = jCheckBox14.isSelected();
+        boolean editarEspecialidade = jCheckBox15.isSelected();
+        boolean cadastrarConvenio = jCheckBox16.isSelected();
+        boolean editarConvenio = jCheckBox17.isSelected();
+        boolean listarConvenio = jCheckBox18.isSelected();
+
+        // SQL de inserção para a tabela "perfil"
+        String sql = "INSERT INTO perfil (nome, cadastrarFuncionario, listarFuncionario, editarFuncionario, "
+                + "listarPaciente, cadastrarPaciente, editarPaciente, listarProntuario, cadastrarProntuario, "
+                + "editarProntuario, listarConsulta, cadastrarConsulta, editarConsulta, listarEspecialidade, "
+                + "cadastrarEspecialidade, editarEspecialidade, cadastrarConvenio, editarConvenio, listarConvenio) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (java.sql.Connection con = java.sql.DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/clinica_medica_poo", "root", "12345");
              java.sql.PreparedStatement stmt = con.prepareStatement(sql)) {
 
-            stmt.setString(1, nomePerfil);
-stmt.setBoolean(2, cadastrarFuncionario);
-stmt.setBoolean(3, lerFuncionario);
-stmt.setBoolean(4, atualizarFuncionario);
-stmt.setBoolean(5, deletarFuncionario);
-stmt.setBoolean(6, cadastrarPaciente);
-stmt.setBoolean(7, atualizarPaciente);
-stmt.setBoolean(8, deletarPaciente);
-stmt.setBoolean(9, listarPaciente);
-stmt.setBoolean(10, cadastrarConsulta);
-stmt.setBoolean(11, atualizarConsulta);
-stmt.setBoolean(12, deletarConsulta);
-stmt.setBoolean(13, listarConsulta);
-stmt.setBoolean(14, cadastrarProntuario);
-stmt.setBoolean(15, atualizarProntuario);
-stmt.setBoolean(16, deletarProntuario);
-stmt.setBoolean(17, listarProntuario);
+            // Configura os parâmetros do PreparedStatement com os valores coletados
+            stmt.setString(1, nomePerfil); // O nome do perfil
+            stmt.setBoolean(2, cadastrarFuncionario); // Permissão para cadastrar funcionário
+            stmt.setBoolean(3, listarFuncionario); // Permissão para listar funcionário
+            stmt.setBoolean(4, editarFuncionario); // Permissão para editar funcionário
+            stmt.setBoolean(5, listarPaciente); // Permissão para listar paciente
+            stmt.setBoolean(6, cadastrarPaciente); // Permissão para cadastrar paciente
+            stmt.setBoolean(7, editarPaciente); // Permissão para editar paciente
+            stmt.setBoolean(8, listarProntuario); // Permissão para listar prontuário
+            stmt.setBoolean(9, cadastrarProntuario); // Permissão para cadastrar prontuário
+            stmt.setBoolean(10, editarProntuario); // Permissão para editar prontuário
+            stmt.setBoolean(11, listarConsulta); // Permissão para listar consulta
+            stmt.setBoolean(12, cadastrarConsulta); // Permissão para cadastrar consulta
+            stmt.setBoolean(13, editarConsulta); // Permissão para editar consulta
+            stmt.setBoolean(14, listarEspecialidade); // Permissão para listar especialidade
+            stmt.setBoolean(15, cadastrarEspecialidade); // Permissão para cadastrar especialidade
+            stmt.setBoolean(16, editarEspecialidade); // Permissão para editar especialidade
+            stmt.setBoolean(17, cadastrarConvenio); // Permissão para cadastrar convênio
+            stmt.setBoolean(18, editarConvenio); // Permissão para editar convênio
+            stmt.setBoolean(19, listarConvenio); // Permissão para listar convênio
 
+            // Executa a inserção no banco de dados
             stmt.executeUpdate();
             javax.swing.JOptionPane.showMessageDialog(this, "Perfil salvo com sucesso!");
+
         } catch (java.sql.SQLException ex) {
+            // Exibe mensagem de erro caso haja uma falha ao salvar no banco
             javax.swing.JOptionPane.showMessageDialog(this, "Erro ao salvar perfil: " + ex.getMessage());
         }
     }
+
+
+
+
 
     /**
      * @param args the command line arguments

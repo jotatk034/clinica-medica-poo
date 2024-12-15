@@ -39,7 +39,6 @@ public class ListagemProntuario extends javax.swing.JFrame {
             while (rs.next()) {
                 Object[] row = {
                         rs.getInt("ID"),                   // Coluna ID
-                        rs.getString("dados_consulta"),    // Coluna dados_consulta
                         rs.getString("receituario"),       // Coluna receituario
                         rs.getString("exames"),            // Coluna exames
                         rs.getString("observacoes")        // Coluna observacoes
@@ -109,7 +108,7 @@ public class ListagemProntuario extends javax.swing.JFrame {
                         {null, null, null, null, null}
                 },
                 new String [] {
-                        "ID", "Dados da Consulta", "Receituário", "Exames", "Observações"
+                        "ID", "Receituário", "Exames", "Observações"
                 }
         ));
         jScrollPane2.setViewportView(jTable2);

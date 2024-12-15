@@ -3,6 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package br.edu.imepac.administrativo.telas.Perfil;
+import java.sql.*;
+import javax.swing.*;
+import br.edu.imepac.administrativo.daos.ConexaoDatabase;
 
 /**
  *
@@ -16,7 +19,206 @@ public class EditarPerfil extends javax.swing.JFrame {
     public EditarPerfil() {
         initComponents();
         this.setLocationRelativeTo(null);
+        conectarBanco();
+        carregarPerfis();
+        limparCampos();
+        String nomePerfilSelecionado = (String) jComboBox1.getSelectedItem();
+        if (nomePerfilSelecionado != null) {
+            carregarPermissoes(nomePerfilSelecionado);
+        }
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+
     }
+
+    private Connection conn;
+
+    private void conectarBanco() {
+        try {
+            // Utilizando sua classe ConexaoDatabase para obter a conexão
+            conn = ConexaoDatabase.getConnection();  // Supondo que o método getConnection() retorne uma conexão
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro na conexão com o banco de dados.");
+        }
+    }
+
+    // Carrega os perfis para o JComboBox
+    private void carregarPerfis() {
+        String sql = "SELECT nome FROM perfil";
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                String nome = rs.getString("nome");
+                jComboBox1.addItem(nome);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao carregar os perfis.");
+        }
+    }
+
+    // Carrega as permissões do perfil selecionado
+    private void carregarPermissoes(String nomePerfil) {
+        String sql = "SELECT * FROM perfil WHERE nome = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, nomePerfil);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                // Marca os JCheckBox conforme os dados do banco
+                CriarFuncionarioCheckBox.setSelected(rs.getInt("cadastrarFuncionario") == 1);
+                ListarFuncionarioCheckBox.setSelected(rs.getInt("listarFuncionario") == 1);
+                EditarFuncionarioCheckbox.setSelected(rs.getInt("editarFuncionario") == 1);
+
+                CriarPacienteCheckBox.setSelected(rs.getInt("cadastrarPaciente") == 1);
+                ListarPacienteCheckBox.setSelected(rs.getInt("listarPaciente") == 1);
+                EditarPacienteCheckBox.setSelected(rs.getInt("editarPaciente") == 1);
+
+                CriarProntuarioCheckBox.setSelected(rs.getInt("cadastrarProntuario") == 1);
+                ListarProntuarioCheckBox.setSelected(rs.getInt("listarProntuario") == 1);
+                EditarProntuarioCheckBox.setSelected(rs.getInt("editarProntuario") == 1);
+
+                CriarConsultaCheckBox.setSelected(rs.getInt("cadastrarConsulta") == 1);
+                ListarConsultaCheckBox.setSelected(rs.getInt("listarConsulta") == 1);
+                EditarConsultaCheckBox.setSelected(rs.getInt("editarConsulta") == 1);
+
+                CriarEspecialidadeCheckBox.setSelected(rs.getInt("cadastrarEspecialidade") == 1);
+                ListarEspecialidadeCheckBox.setSelected(rs.getInt("listarEspecialidade") == 1);
+                EditarEspecialidadeCheckBox.setSelected(rs.getInt("editarEspecialidade") == 1);
+
+                CriarConvenioCheckBox.setSelected(rs.getInt("cadastrarConvenio") == 1);
+                ListarConvenioCheckBox.setSelected(rs.getInt("listarConvenio") == 1);
+                EditarConvenioCheckBox.setSelected(rs.getInt("editarConvenio") == 1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao carregar permissões.");
+        }
+    }
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {
+        // Obtém o nome do perfil selecionado
+        String nomePerfil = (String) jComboBox1.getSelectedItem();
+
+        // Se o perfil não for nulo, carrega as permissões para esse perfil
+        if (nomePerfil != null) {
+            carregarPermissoes(nomePerfil);
+        }
+    }
+    private void jButton2_SalvarActionPerformed(java.awt.event.ActionEvent evt) {
+        // Obter o nome do perfil selecionado
+        String nomePerfil = jComboBox1.getSelectedItem().toString();
+
+        // Atualizar permissões no banco de dados
+        String sql = "UPDATE perfil SET "
+                + "cadastrarFuncionario = ?, listarFuncionario = ?, editarFuncionario = ?, "
+                + "cadastrarPaciente = ?, listarPaciente = ?, editarPaciente = ?, "
+                + "cadastrarProntuario = ?, listarProntuario = ?, editarProntuario = ?, "
+                + "cadastrarConsulta = ?, listarConsulta = ?, editarConsulta = ?, "
+                + "cadastrarEspecialidade = ?, listarEspecialidade = ?, editarEspecialidade = ?, "
+                + "cadastrarConvenio = ?, listarConvenio = ?, editarConvenio = ? "
+                + "WHERE nome = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            // Definindo os parâmetros com os valores das JCheckBox
+            stmt.setInt(1, CriarFuncionarioCheckBox.isSelected() ? 1 : 0);
+            stmt.setInt(2, ListarFuncionarioCheckBox.isSelected() ? 1 : 0);
+            stmt.setInt(3, EditarFuncionarioCheckbox.isSelected() ? 1 : 0);
+
+            stmt.setInt(4, CriarPacienteCheckBox.isSelected() ? 1 : 0);
+            stmt.setInt(5, ListarPacienteCheckBox.isSelected() ? 1 : 0);
+            stmt.setInt(6, EditarPacienteCheckBox.isSelected() ? 1 : 0);
+
+            stmt.setInt(7, CriarProntuarioCheckBox.isSelected() ? 1 : 0);
+            stmt.setInt(8, ListarProntuarioCheckBox.isSelected() ? 1 : 0);
+            stmt.setInt(9, EditarProntuarioCheckBox.isSelected() ? 1 : 0);
+
+            stmt.setInt(10, CriarConsultaCheckBox.isSelected() ? 1 : 0);
+            stmt.setInt(11, ListarConsultaCheckBox.isSelected() ? 1 : 0);
+            stmt.setInt(12, EditarConsultaCheckBox.isSelected() ? 1 : 0);
+
+            stmt.setInt(13, CriarEspecialidadeCheckBox.isSelected() ? 1 : 0);
+            stmt.setInt(14, ListarEspecialidadeCheckBox.isSelected() ? 1 : 0);
+            stmt.setInt(15, EditarEspecialidadeCheckBox.isSelected() ? 1 : 0);
+
+            stmt.setInt(16, CriarConvenioCheckBox.isSelected() ? 1 : 0);
+            stmt.setInt(17, ListarConvenioCheckBox.isSelected() ? 1 : 0);
+            stmt.setInt(18, EditarConvenioCheckBox.isSelected() ? 1 : 0);
+
+            // Definir o nome do perfil para o WHERE
+            stmt.setString(19, nomePerfil);
+
+            // Executar a atualização
+            stmt.executeUpdate();
+
+            JOptionPane.showMessageDialog(this, "Permissões salvas com sucesso!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao salvar permissões.");
+        }
+    }
+    private void jButton3_ApagarActionPerformed(java.awt.event.ActionEvent evt) {
+        // Obter o nome do perfil selecionado
+        String nomePerfil = jComboBox1.getSelectedItem().toString();
+
+        // Confirmação antes de apagar
+        int confirm = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja apagar as permissões deste perfil?",
+                "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            // Remover permissões do banco de dados
+            String sql = "DELETE FROM perfil WHERE nome = ?";
+
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, nomePerfil);
+
+                // Executar a exclusão
+                stmt.executeUpdate();
+
+                // Mostrar mensagem de sucesso
+                JOptionPane.showMessageDialog(this, "Permissões apagadas com sucesso!");
+                // Limpar as JCheckBox
+                limparCampos();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Erro ao apagar permissões.");
+            }
+        }
+    }
+    private void limparCampos() {
+        CriarFuncionarioCheckBox.setSelected(false);
+        ListarFuncionarioCheckBox.setSelected(false);
+        EditarFuncionarioCheckbox.setSelected(false);
+
+        CriarPacienteCheckBox.setSelected(false);
+        ListarPacienteCheckBox.setSelected(false);
+        EditarPacienteCheckBox.setSelected(false);
+
+        CriarProntuarioCheckBox.setSelected(false);
+        ListarProntuarioCheckBox.setSelected(false);
+        EditarProntuarioCheckBox.setSelected(false);
+
+        CriarConsultaCheckBox.setSelected(false);
+        ListarConsultaCheckBox.setSelected(false);
+        EditarConsultaCheckBox.setSelected(false);
+
+        CriarEspecialidadeCheckBox.setSelected(false);
+        ListarEspecialidadeCheckBox.setSelected(false);
+        EditarEspecialidadeCheckBox.setSelected(false);
+
+        CriarConvenioCheckBox.setSelected(false);
+        ListarConvenioCheckBox.setSelected(false);
+        EditarConvenioCheckBox.setSelected(false);
+    }
+
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -244,17 +446,13 @@ public class EditarPerfil extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
-    private void jButton3_ApagarActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
+
 
     private void jButton1_CancelarActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
 
-    private void jButton2_SalvarActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
+
 
     private void CriarFuncionarioCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:

@@ -37,38 +37,26 @@ public class ListagemPerfil extends javax.swing.JFrame {
 
             while (rs.next()) {
                 Object[] row = {
-                        rs.getInt("id"),                              // ID do perfil
-                        rs.getString("nome"),                         // Nome do perfil
+                        rs.getInt("id"),  // ID do perfil
+                        rs.getString("nome"),  // Nome do perfil
                         rs.getBoolean("cadastrarFuncionario") ? "Sim" : "Não",
-                        rs.getBoolean("lerFuncionario") ? "Sim" : "Não",
-                        rs.getBoolean("atualizarFuncionario") ? "Sim" : "Não",
-                        rs.getBoolean("deletarFuncionario") ? "Sim" : "Não",
                         rs.getBoolean("listarFuncionario") ? "Sim" : "Não",
+                        rs.getBoolean("editarFuncionario") ? "Sim" : "Não",
                         rs.getBoolean("cadastrarPaciente") ? "Sim" : "Não",
-                        rs.getBoolean("lerPaciente") ? "Sim" : "Não",
-                        rs.getBoolean("atualizarPaciente") ? "Sim" : "Não",
-                        rs.getBoolean("deletarPaciente") ? "Sim" : "Não",
                         rs.getBoolean("listarPaciente") ? "Sim" : "Não",
-                        rs.getBoolean("cadastrarConsulta") ? "Sim" : "Não",
-                        rs.getBoolean("lerConsulta") ? "Sim" : "Não",
-                        rs.getBoolean("atualizarConsulta") ? "Sim" : "Não",
-                        rs.getBoolean("deletarConsulta") ? "Sim" : "Não",
-                        rs.getBoolean("listarConsulta") ? "Sim" : "Não",
-                        rs.getBoolean("cadastrarEspecialidade") ? "Sim" : "Não",
-                        rs.getBoolean("lerEspecialidade") ? "Sim" : "Não",
-                        rs.getBoolean("atualizarEspecialidade") ? "Sim" : "Não",
-                        rs.getBoolean("deletarEspecialidade") ? "Sim" : "Não",
-                        rs.getBoolean("listarEspecialidade") ? "Sim" : "Não",
-                        rs.getBoolean("cadastrarConvenio") ? "Sim" : "Não",
-                        rs.getBoolean("lerConvenio") ? "Sim" : "Não",
-                        rs.getBoolean("atualizarConvenio") ? "Sim" : "Não",
-                        rs.getBoolean("deletarConvenio") ? "Sim" : "Não",
-                        rs.getBoolean("listarConvenio") ? "Sim" : "Não",
+                        rs.getBoolean("editarPaciente") ? "Sim" : "Não",
+                        rs.getBoolean("listarProntuario") ? "Sim" : "Não",
                         rs.getBoolean("cadastrarProntuario") ? "Sim" : "Não",
-                        rs.getBoolean("lerProntuario") ? "Sim" : "Não",
-                        rs.getBoolean("atualizarProntuario") ? "Sim" : "Não",
-                        rs.getBoolean("deletarProntuario") ? "Sim" : "Não",
-                        rs.getBoolean("listarProntuario") ? "Sim" : "Não"
+                        rs.getBoolean("editarProntuario") ? "Sim" : "Não",
+                        rs.getBoolean("listarConsulta") ? "Sim" : "Não",
+                        rs.getBoolean("cadastrarConsulta") ? "Sim" : "Não",
+                        rs.getBoolean("editarConsulta") ? "Sim" : "Não",
+                        rs.getBoolean("listarEspecialidade") ? "Sim" : "Não",
+                        rs.getBoolean("cadastrarEspecialidade") ? "Sim" : "Não",
+                        rs.getBoolean("editarEspecialidade") ? "Sim" : "Não",
+                        rs.getBoolean("cadastrarConvenio") ? "Sim" : "Não",
+                        rs.getBoolean("editarConvenio") ? "Sim" : "Não",
+                        rs.getBoolean("listarConvenio") ? "Sim" : "Não"
                 };
 
                 model.addRow(row); // Adiciona a linha na tabela
@@ -111,13 +99,11 @@ public class ListagemPerfil extends javax.swing.JFrame {
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {},
                 new String [] {
-                        "ID", "Nome", "Cadastrar Func.", "Ler Func.", "Atualizar Func.", "Deletar Func.",
-                        "Listar Func.", "Cadastrar Pac.", "Ler Pac.", "Atualizar Pac.", "Deletar Pac.",
-                        "Listar Pac.", "Cadastrar Cons.", "Ler Cons.", "Atualizar Cons.", "Deletar Cons.",
-                        "Listar Cons.", "Cadastrar Esp.", "Ler Esp.", "Atualizar Esp.", "Deletar Esp.",
-                        "Listar Esp.", "Cadastrar Conv.", "Ler Conv.", "Atualizar Conv.", "Deletar Conv.",
-                        "Listar Conv.", "Cadastrar Pront.", "Ler Pront.", "Atualizar Pront.", "Deletar Pront.",
-                        "Listar Pront."
+                        "ID", "Nome", "Cadastrar Func.", "Listar Func.", "Editar Func.",
+                        "Cadastrar Pac.", "Listar Pac.", "Editar Pac.", "Listar Pront.",
+                        "Cadastrar Pront.", "Editar Pront.", "Listar Cons.", "Cadastrar Cons.",
+                        "Editar Cons.", "Listar Esp.", "Cadastrar Esp.", "Editar Esp.",
+                        "Cadastrar Conv.", "Editar Conv.", "Listar Conv."
                 }
         ));
         jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF); // Habilita rolagem horizontal
@@ -178,24 +164,16 @@ public class ListagemPerfil extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * Método principal para executar o programa
-     */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(() -> {
-            new ListagemPerfil().setVisible(true);
-        });
+    public static void main(String[] args) {
+        java.awt.EventQueue.invokeLater(() -> new ListagemPerfil().setVisible(true));
     }
 
-    // Declaração de variáveis
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

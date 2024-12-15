@@ -61,7 +61,7 @@ public class CadastrarConsulta extends javax.swing.JFrame {
             // URL de conexão com o banco (altere conforme necessário)
             String url = "jdbc:mysql://localhost:3306/clinica_medica_poo";
             String usuario = "root";  // Usuário do MySQL
-            String senha = "0101";    // Senha do MySQL
+            String senha = "12345";    // Senha do MySQL
 
             // Estabelecendo a conexão
             conexao = DriverManager.getConnection(url, usuario, senha);
