@@ -6,19 +6,114 @@ package br.edu.imepac.administrativo.telas.Paciente;
 
 import br.edu.imepac.atendimento.telas.*;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 /**
  *
  * @author User
  */
+
 public class CadastrarPaciente extends javax.swing.JFrame {
+
+    public class Conexao {
+        private static final String URL = "jdbc:mysql://localhost:3306/clinica_medica_poo"; // URL do banco de dados
+        private static final String USER = "root"; // Usuário do banco
+        private static final String PASSWORD = "0101"; // Senha do banco
+
+        public static Connection getConnection() throws SQLException {
+            try {
+                Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+                return connection;
+            } catch (SQLException e) {
+                throw new SQLException("Erro ao conectar ao banco de dados.", e);
+            }
+        }
+    }
 
     /**
      * Creates new form CadastrarPaciente
      */
     public CadastrarPaciente() {
         initComponents();
+        jButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                salvarPaciente();
+            }
+        });
+    }
+    private void salvarPaciente() {
+        String nome = jTextField1.getText();
+        String cpf = jTextField4.getText();
+        String dataNascimento = jTextField6.getText();
+        String idade = jTextField2.getText();
+        String sexo = (String) jComboBox4.getSelectedItem();
+        String estado = jTextField7.getText();
+        String bairro = jTextField8.getText();
+        String rua = jTextField5.getText();
+        String numero = jTextField9.getText();
+        String cidade = jTextField10.getText();
+        String complemento = jTextField13.getText();
+        String contato = jTextField11.getText();
+        String email = jTextField12.getText();
+
+        // Validação simples dos campos
+        if (nome.isEmpty() || cpf.isEmpty() || dataNascimento.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, preencha todos os campos obrigatórios.", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try (Connection connection = Conexao.getConnection()) {
+            String sql = "INSERT INTO paciente (nome, cpf, data_nascimento, idade, sexo, estado, bairro, rua, numero, cidade, complemento, contato, email) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setString(1, nome);
+                stmt.setString(2, cpf);
+                stmt.setString(3, dataNascimento);
+                stmt.setString(4, idade);
+                stmt.setString(5, sexo);
+                stmt.setString(6, estado);
+                stmt.setString(7, bairro);
+                stmt.setString(8, rua);
+                stmt.setString(9, numero);
+                stmt.setString(10, cidade);
+                stmt.setString(11, complemento);
+                stmt.setString(12, contato);
+                stmt.setString(13, email);
+
+                stmt.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Paciente cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                limparCampos(); // Limpar campos após salvar
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Erro ao salvar paciente: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Erro ao conectar ao banco de dados: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
+    private void limparCampos() {
+        jTextField1.setText("");
+        jTextField4.setText("");
+        jTextField6.setText("");
+        jTextField2.setText("");
+        jTextField7.setText("");
+        jTextField8.setText("");
+        jTextField5.setText("");
+        jTextField9.setText("");
+        jTextField10.setText("");
+        jTextField13.setText("");
+        jTextField11.setText("");
+        jTextField12.setText("");
+        jComboBox4.setSelectedIndex(0);
+    }
+
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

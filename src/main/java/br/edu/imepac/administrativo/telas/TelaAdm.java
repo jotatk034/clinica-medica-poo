@@ -645,8 +645,8 @@ public class TelaAdm extends javax.swing.JFrame {
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
         // TODO add your handling code here:
-        EditarConsulta telaEditarConsulta = new EditarConsulta();
-        telaEditarConsulta.setVisible(true);
+        EditarConsulta EditarConsulta = new EditarConsulta();
+        EditarConsulta.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton17ActionPerformed
 
