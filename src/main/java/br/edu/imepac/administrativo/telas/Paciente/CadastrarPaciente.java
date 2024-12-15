@@ -4,7 +4,7 @@
  */
 package br.edu.imepac.administrativo.telas.Paciente;
 
-import br.edu.imepac.atendimento.telas.*;
+
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

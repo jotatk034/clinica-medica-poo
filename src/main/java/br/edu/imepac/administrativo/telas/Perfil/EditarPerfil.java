@@ -450,6 +450,7 @@ public class EditarPerfil extends javax.swing.JFrame {
 
     private void jButton1_CancelarActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+        this.dispose();
     }
 
 

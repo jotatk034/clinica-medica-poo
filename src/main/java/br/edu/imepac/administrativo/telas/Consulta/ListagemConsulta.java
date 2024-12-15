@@ -175,6 +175,10 @@ public class ListagemConsulta extends javax.swing.JFrame {
             new ListagemConsulta().setVisible(true);
         });
     }
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1_CancelarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jButton1_CancelarActionPerformed
 
     // Declaração dos componentes
     private javax.swing.JButton jButton3;

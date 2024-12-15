@@ -3,8 +3,6 @@ package br.edu.imepac.administrativo.telas;
 import javax.swing.*;
 import java.sql.*;
 import br.edu.imepac.administrativo.daos.ConexaoDatabase;
-import br.edu.imepac.atendimento.telas.TelaAtendente;
-import br.edu.imepac.administrativo.telas.TelaMedico;
 
 public class TelaloginADM extends javax.swing.JFrame {
 

@@ -22,6 +22,7 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
         popularComboBoxes();
         this.setLocationRelativeTo(null);
 
+
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
@@ -33,6 +34,7 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
             }
         });
     }
+
 
     // Método para conectar ao banco de dados e popular os ComboBoxes
     public void popularComboBoxes() {
@@ -475,6 +477,7 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
 
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+
     }
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -482,7 +485,7 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
     }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+
     }
 
     /**
@@ -519,6 +522,7 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
             }
         });
     }
+
 
     // Variables declaration - do not modify
     private javax.swing.JButton jButton1;

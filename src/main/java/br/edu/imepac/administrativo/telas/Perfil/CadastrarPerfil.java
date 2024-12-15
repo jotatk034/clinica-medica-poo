@@ -434,6 +434,7 @@ public class CadastrarPerfil extends javax.swing.JFrame {
         });
     }
 
+
     // Variables declaration - do not modify
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

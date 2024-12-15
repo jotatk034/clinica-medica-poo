@@ -556,42 +556,42 @@ public class TelaAdm extends javax.swing.JFrame {
         // TODO add your handling code here:
         CadastrarPerfil telaCadastrarPerfil = new CadastrarPerfil();
         telaCadastrarPerfil.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         CadastrarFuncionario telaCadastrarFuncionario = new CadastrarFuncionario();
         telaCadastrarFuncionario.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
         // TODO add your handling code here:
         CadastrarConsulta telaCadastrarConsulta = new CadastrarConsulta();
         telaCadastrarConsulta.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
         // TODO add your handling code here:
         CadastrarConvenio telaCadastrarConvenio = new CadastrarConvenio();
         telaCadastrarConvenio.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
         // TODO add your handling code here:
         CadastrarPaciente telaCadastrarPaciente = new CadastrarPaciente();
         telaCadastrarPaciente.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton24ActionPerformed
 
     private void jButton27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton27ActionPerformed
         // TODO add your handling code here:
         CadastrarProntuario telaCadastrarProntuario = new CadastrarProntuario();
         telaCadastrarProntuario.setVisible(true);
-        dispose();
+
         
     }//GEN-LAST:event_jButton27ActionPerformed
 
@@ -599,83 +599,83 @@ public class TelaAdm extends javax.swing.JFrame {
         // TODO add your handling code here:
         CadastrarEspecialidade telaCadastrarEspecialidade = new CadastrarEspecialidade();
         telaCadastrarEspecialidade.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton30ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         EditarPerfil telaEditarPerfil = new EditarPerfil();
         telaEditarPerfil.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         ListagemPerfil telaListarPerfil = new ListagemPerfil();
         telaListarPerfil.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
         // TODO add your handling code here:
         EditarPaciente telaEditarPaciente = new EditarPaciente();
         telaEditarPaciente.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton23ActionPerformed
 
     private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
         // TODO add your handling code here:
         ListagemPaciente telaListarPaciente = new ListagemPaciente();
         telaListarPaciente.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton25ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         EditarFuncionario telaEditarFuncionario = new EditarFuncionario();
         telaEditarFuncionario.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         ListagemFuncionario telaListarFuncionario = new ListagemFuncionario();
         telaListarFuncionario.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
         // TODO add your handling code here:
         EditarConsulta EditarConsulta = new EditarConsulta();
         EditarConsulta.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
         // TODO add your handling code here:
         ListagemConsulta telaListarConsulta = new ListagemConsulta();
         telaListarConsulta.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton19ActionPerformed
 
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
         // Criando a instância de EditarConvenio sem passar o ID
         EditarConvenio telaEditarConvenio = new EditarConvenio();
         telaEditarConvenio.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton20ActionPerformed
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
         // TODO add your handling code here:
         ListagemConvenio telaListarConvenio = new ListagemConvenio();
         telaListarConvenio.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
         // TODO add your handling code here:
         EditarProntuario telaEditarProntuario = new EditarProntuario();
         telaEditarProntuario.setVisible(true);
-        dispose();
+
     
     }//GEN-LAST:event_jButton26ActionPerformed
 
@@ -683,21 +683,21 @@ public class TelaAdm extends javax.swing.JFrame {
         // TODO add your handling code here:
         ListagemProntuario telaListarProntuario = new ListagemProntuario();
         telaListarProntuario.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton28ActionPerformed
 
     private void jButton29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton29ActionPerformed
         // TODO add your handling code here:
         EditarEspecialidade telaEditarEspecialidade = new EditarEspecialidade();
         telaEditarEspecialidade.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton29ActionPerformed
 
     private void jButton31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton31ActionPerformed
         // TODO add your handling code here:
         ListagemEspecialidade telaListarEspecialidade = new ListagemEspecialidade();
         telaListarEspecialidade.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton31ActionPerformed
 
     /**

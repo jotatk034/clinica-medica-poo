@@ -161,8 +161,7 @@ public class CadastrarConvenio extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
         // Retornar à tela principal
-        TelaAdm telaAdm = new TelaAdm();
-        telaAdm.setVisible(true);
+
         this.dispose();
     }
 

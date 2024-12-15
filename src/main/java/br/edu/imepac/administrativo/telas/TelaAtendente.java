@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package br.edu.imepac.atendimento.telas;
+package br.edu.imepac.administrativo.telas;
 
 import br.edu.imepac.administrativo.telas.Convenio.CadastrarConvenio;
 import br.edu.imepac.administrativo.telas.Convenio.EditarConvenio;
@@ -360,7 +360,7 @@ public class TelaAtendente extends javax.swing.JFrame {
         // TODO add your handling code here:
         CadastrarConsulta telaCadastrarConsulta = new CadastrarConsulta();
         telaCadastrarConsulta.setVisible(true);
-        dispose();
+
         
     }//GEN-LAST:event_jButton18ActionPerformed
 
@@ -368,28 +368,28 @@ public class TelaAtendente extends javax.swing.JFrame {
         // TODO add your handling code here:
         CadastrarConvenio telaCadastrarConvenio = new CadastrarConvenio();
         telaCadastrarConvenio.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
         // TODO add your handling code here:
         CadastrarPaciente telaCadastrarPaciente = new CadastrarPaciente();
         telaCadastrarPaciente.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton24ActionPerformed
 
     private void jButton27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton27ActionPerformed
         // TODO add your handling code here:
         CadastrarProntuario telaCadastrarProntuario = new CadastrarProntuario();
         telaCadastrarProntuario.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton27ActionPerformed
 
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
         // TODO add your handling code here:
         EditarPaciente telaEditarPaciente = new EditarPaciente();
         telaEditarPaciente.setVisible(true);
-        dispose();
+
 
     }//GEN-LAST:event_jButton23ActionPerformed
 
@@ -397,14 +397,14 @@ public class TelaAtendente extends javax.swing.JFrame {
         // TODO add your handling code here:
         ListagemPaciente telaListarPaciente = new ListagemPaciente();
         telaListarPaciente.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton25ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
         // TODO add your handling code here:
         EditarConsulta telaEditarConsulta = new EditarConsulta();
         telaEditarConsulta.setVisible(true);
-        dispose();
+
         
     }//GEN-LAST:event_jButton17ActionPerformed
 
@@ -412,35 +412,35 @@ public class TelaAtendente extends javax.swing.JFrame {
         // TODO add your handling code here:
         ListagemConsulta telaListarConsulta = new ListagemConsulta();
         telaListarConsulta.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton19ActionPerformed
 
     private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
         // TODO add your handling code here:
         EditarProntuario telaEditarProntuario = new EditarProntuario();
         telaEditarProntuario.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton26ActionPerformed
 
     private void jButton28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton28ActionPerformed
         // TODO add your handling code here:
         ListagemProntuario telaListarProntuario = new ListagemProntuario();
         telaListarProntuario.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton28ActionPerformed
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
         // TODO add your handling code here:
         ListagemConvenio telaListarConvenio = new ListagemConvenio();
         telaListarConvenio.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
         // TODO add your handling code here:
         EditarConvenio telaEditarConvenio = new EditarConvenio();
         telaEditarConvenio.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton20ActionPerformed
 
     /**

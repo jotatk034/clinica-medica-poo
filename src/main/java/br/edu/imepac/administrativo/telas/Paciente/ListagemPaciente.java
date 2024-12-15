@@ -113,7 +113,7 @@ public class ListagemPaciente extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jButton3.setText("Voltar");
-        jButton3.addActionListener(evt -> dispose()); // Fecha a tela ao clicar no botão
+        jButton3.addActionListener(evt -> this.dispose()); // Fecha a tela ao clicar no botão
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
