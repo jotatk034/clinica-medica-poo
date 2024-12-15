@@ -15,6 +15,7 @@ public class EditarPerfil extends javax.swing.JFrame {
      */
     public EditarPerfil() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -36,34 +37,29 @@ public class EditarPerfil extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        jButton2_Salvar = new javax.swing.JButton();
+        jButton1_Cancelar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jComboBox7 = new javax.swing.JComboBox<>();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        ListarFuncionario = new javax.swing.JComboBox<>();
-        ListarProntuario = new javax.swing.JComboBox<>();
-        EditarFuncionario = new javax.swing.JComboBox<>();
-        CriarFuncionario = new javax.swing.JComboBox<>();
-        CriarPaciente = new javax.swing.JComboBox<>();
-        EditarPaciente = new javax.swing.JComboBox<>();
-        ListarPaciente = new javax.swing.JComboBox<>();
-        ListarConsulta = new javax.swing.JComboBox<>();
-        EditarConsulta = new javax.swing.JComboBox<>();
-        CriarConsulta = new javax.swing.JComboBox<>();
-        CriarEspecialidade = new javax.swing.JComboBox<>();
-        ListarConvenio = new javax.swing.JComboBox<>();
-        CriarProntuario = new javax.swing.JComboBox<>();
-        EditarProntuario = new javax.swing.JComboBox<>();
-        EditarEspecialidade = new javax.swing.JComboBox<>();
-        ListarEspecialidade = new javax.swing.JComboBox<>();
-        CriarConvenio = new javax.swing.JComboBox<>();
-        EditarConvenio = new javax.swing.JComboBox<>();
+        jButton3_Apagar = new javax.swing.JButton();
+        CriarFuncionarioCheckBox = new javax.swing.JCheckBox();
+        EditarFuncionarioCheckbox = new javax.swing.JCheckBox();
+        ListarFuncionarioCheckBox = new javax.swing.JCheckBox();
+        CriarPacienteCheckBox = new javax.swing.JCheckBox();
+        EditarPacienteCheckBox = new javax.swing.JCheckBox();
+        ListarPacienteCheckBox = new javax.swing.JCheckBox();
+        CriarConsultaCheckBox = new javax.swing.JCheckBox();
+        EditarConsultaCheckBox = new javax.swing.JCheckBox();
+        ListarConsultaCheckBox = new javax.swing.JCheckBox();
+        CriarProntuarioCheckBox = new javax.swing.JCheckBox();
+        EditarProntuarioCheckBox = new javax.swing.JCheckBox();
+        ListarProntuarioCheckBox = new javax.swing.JCheckBox();
+        CriarEspecialidadeCheckBox = new javax.swing.JCheckBox();
+        EditarEspecialidadeCheckBox = new javax.swing.JCheckBox();
+        ListarEspecialidadeCheckBox = new javax.swing.JCheckBox();
+        CriarConvenioCheckBox = new javax.swing.JCheckBox();
+        EditarConvenioCheckBox = new javax.swing.JCheckBox();
+        ListarConvenioCheckBox = new javax.swing.JCheckBox();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -80,151 +76,138 @@ public class EditarPerfil extends javax.swing.JFrame {
 
         jLabel4.setText("Funcionario");
         jPanel2.add(jLabel4);
-        jLabel4.setBounds(70, 90, 80, 16);
+        jLabel4.setBounds(10, 70, 80, 16);
 
         jLabel5.setText("Paciente");
         jPanel2.add(jLabel5);
-        jLabel5.setBounds(170, 90, 70, 16);
+        jLabel5.setBounds(80, 70, 70, 16);
 
         jLabel6.setText("Consulta");
         jPanel2.add(jLabel6);
-        jLabel6.setBounds(270, 90, 70, 16);
+        jLabel6.setBounds(150, 70, 70, 16);
 
         jLabel9.setText("Prontuário");
         jPanel2.add(jLabel9);
-        jLabel9.setBounds(370, 90, 70, 16);
+        jLabel9.setBounds(220, 70, 70, 16);
 
         jLabel3.setText("Especialidade");
         jPanel2.add(jLabel3);
-        jLabel3.setBounds(470, 90, 90, 16);
+        jLabel3.setBounds(290, 70, 90, 16);
 
         jLabel7.setText("Convênio");
         jPanel2.add(jLabel7);
-        jLabel7.setBounds(570, 90, 80, 16);
+        jLabel7.setBounds(380, 70, 80, 16);
 
-        jButton2.setText("Salvar ");
-        jPanel2.add(jButton2);
-        jButton2.setBounds(430, 240, 72, 23);
+        jButton2_Salvar.setText("Salvar ");
+        jButton2_Salvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2_SalvarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton2_Salvar);
+        jButton2_Salvar.setBounds(120, 180, 72, 23);
 
-        jButton1.setText("Cancelar");
-        jPanel2.add(jButton1);
-        jButton1.setBounds(610, 240, 76, 23);
-        jPanel2.add(jTextField1);
-        jTextField1.setBounds(92, 15, 231, 22);
+        jButton1_Cancelar.setText("Cancelar");
+        jButton1_Cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1_CancelarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton1_Cancelar);
+        jButton1_Cancelar.setBounds(300, 180, 76, 23);
 
         jLabel2.setText("Nome do Perfil");
         jPanel2.add(jLabel2);
-        jLabel2.setBounds(6, 18, 80, 16);
+        jLabel2.setBounds(10, 20, 120, 16);
 
-        jLabel8.setText("Listar");
-        jPanel2.add(jLabel8);
-        jLabel8.setBounds(10, 180, 41, 16);
-
-        jButton3.setText("Apagar");
-        jPanel2.add(jButton3);
-        jButton3.setBounds(520, 240, 72, 23);
-
-        jPanel2.add(jComboBox7);
-        jComboBox7.setBounds(92, 49, 231, 22);
-
-        jLabel10.setText("ID Perfil");
-        jPanel2.add(jLabel10);
-        jLabel10.setBounds(6, 52, 41, 16);
-
-        jLabel11.setText("Criar");
-        jPanel2.add(jLabel11);
-        jLabel11.setBounds(10, 120, 25, 16);
-
-        jLabel12.setText("Editar");
-        jPanel2.add(jLabel12);
-        jLabel12.setBounds(10, 150, 41, 16);
-
-        ListarFuncionario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sim", "Não" }));
-        jPanel2.add(ListarFuncionario);
-        ListarFuncionario.setBounds(70, 180, 70, 22);
-
-        ListarProntuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sim", "Não" }));
-        jPanel2.add(ListarProntuario);
-        ListarProntuario.setBounds(370, 180, 70, 22);
-
-        EditarFuncionario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sim", "Não" }));
-        jPanel2.add(EditarFuncionario);
-        EditarFuncionario.setBounds(70, 150, 70, 22);
-
-        CriarFuncionario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sim", "Não" }));
-        CriarFuncionario.addActionListener(new java.awt.event.ActionListener() {
+        jButton3_Apagar.setText("Apagar");
+        jButton3_Apagar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CriarFuncionarioActionPerformed(evt);
+                jButton3_ApagarActionPerformed(evt);
             }
         });
-        jPanel2.add(CriarFuncionario);
-        CriarFuncionario.setBounds(70, 120, 70, 22);
+        jPanel2.add(jButton3_Apagar);
+        jButton3_Apagar.setBounds(210, 180, 72, 23);
 
-        CriarPaciente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sim", "Não" }));
-        CriarPaciente.addActionListener(new java.awt.event.ActionListener() {
+        CriarFuncionarioCheckBox.setText("Criar");
+        CriarFuncionarioCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CriarPacienteActionPerformed(evt);
+                CriarFuncionarioCheckBoxActionPerformed(evt);
             }
         });
-        jPanel2.add(CriarPaciente);
-        CriarPaciente.setBounds(170, 120, 70, 22);
+        jPanel2.add(CriarFuncionarioCheckBox);
+        CriarFuncionarioCheckBox.setBounds(10, 90, 70, 20);
 
-        EditarPaciente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sim", "Não" }));
-        jPanel2.add(EditarPaciente);
-        EditarPaciente.setBounds(170, 150, 70, 22);
+        EditarFuncionarioCheckbox.setText("Editar");
+        jPanel2.add(EditarFuncionarioCheckbox);
+        EditarFuncionarioCheckbox.setBounds(10, 110, 60, 20);
 
-        ListarPaciente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sim", "Não" }));
-        jPanel2.add(ListarPaciente);
-        ListarPaciente.setBounds(170, 180, 70, 22);
+        ListarFuncionarioCheckBox.setText("Listar");
+        jPanel2.add(ListarFuncionarioCheckBox);
+        ListarFuncionarioCheckBox.setBounds(10, 130, 84, 20);
 
-        ListarConsulta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sim", "Não" }));
-        jPanel2.add(ListarConsulta);
-        ListarConsulta.setBounds(270, 180, 70, 22);
+        CriarPacienteCheckBox.setText("Criar");
+        jPanel2.add(CriarPacienteCheckBox);
+        CriarPacienteCheckBox.setBounds(80, 90, 60, 20);
 
-        EditarConsulta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sim", "Não" }));
-        jPanel2.add(EditarConsulta);
-        EditarConsulta.setBounds(270, 150, 70, 22);
+        EditarPacienteCheckBox.setText("Editar");
+        jPanel2.add(EditarPacienteCheckBox);
+        EditarPacienteCheckBox.setBounds(80, 110, 60, 20);
 
-        CriarConsulta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sim", "Não" }));
-        jPanel2.add(CriarConsulta);
-        CriarConsulta.setBounds(270, 120, 70, 22);
+        ListarPacienteCheckBox.setText("Listar");
+        jPanel2.add(ListarPacienteCheckBox);
+        ListarPacienteCheckBox.setBounds(80, 130, 70, 20);
 
-        CriarEspecialidade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sim", "Não" }));
-        jPanel2.add(CriarEspecialidade);
-        CriarEspecialidade.setBounds(470, 120, 70, 22);
+        CriarConsultaCheckBox.setText("Criar");
+        jPanel2.add(CriarConsultaCheckBox);
+        CriarConsultaCheckBox.setBounds(150, 90, 60, 20);
 
-        ListarConvenio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sim", "Não" }));
-        jPanel2.add(ListarConvenio);
-        ListarConvenio.setBounds(570, 180, 70, 22);
+        EditarConsultaCheckBox.setText("Editar");
+        jPanel2.add(EditarConsultaCheckBox);
+        EditarConsultaCheckBox.setBounds(150, 110, 60, 20);
 
-        CriarProntuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sim", "Não" }));
-        CriarProntuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CriarProntuarioActionPerformed(evt);
-            }
-        });
-        jPanel2.add(CriarProntuario);
-        CriarProntuario.setBounds(370, 120, 70, 22);
+        ListarConsultaCheckBox.setText("Listar");
+        jPanel2.add(ListarConsultaCheckBox);
+        ListarConsultaCheckBox.setBounds(150, 130, 70, 20);
 
-        EditarProntuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sim", "Não" }));
-        jPanel2.add(EditarProntuario);
-        EditarProntuario.setBounds(370, 150, 70, 22);
+        CriarProntuarioCheckBox.setText("Criar");
+        jPanel2.add(CriarProntuarioCheckBox);
+        CriarProntuarioCheckBox.setBounds(220, 90, 90, 20);
 
-        EditarEspecialidade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sim", "Não" }));
-        jPanel2.add(EditarEspecialidade);
-        EditarEspecialidade.setBounds(470, 150, 70, 22);
+        EditarProntuarioCheckBox.setText("Editar");
+        jPanel2.add(EditarProntuarioCheckBox);
+        EditarProntuarioCheckBox.setBounds(220, 110, 60, 20);
 
-        ListarEspecialidade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sim", "Não" }));
-        jPanel2.add(ListarEspecialidade);
-        ListarEspecialidade.setBounds(470, 180, 70, 22);
+        ListarProntuarioCheckBox.setText("Listar");
+        jPanel2.add(ListarProntuarioCheckBox);
+        ListarProntuarioCheckBox.setBounds(220, 130, 60, 20);
 
-        CriarConvenio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sim", "Não" }));
-        jPanel2.add(CriarConvenio);
-        CriarConvenio.setBounds(570, 120, 70, 22);
+        CriarEspecialidadeCheckBox.setText("Criar");
+        jPanel2.add(CriarEspecialidadeCheckBox);
+        CriarEspecialidadeCheckBox.setBounds(290, 90, 70, 20);
 
-        EditarConvenio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sim", "Não" }));
-        jPanel2.add(EditarConvenio);
-        EditarConvenio.setBounds(570, 150, 70, 22);
+        EditarEspecialidadeCheckBox.setText("Editar");
+        jPanel2.add(EditarEspecialidadeCheckBox);
+        EditarEspecialidadeCheckBox.setBounds(290, 110, 60, 20);
+
+        ListarEspecialidadeCheckBox.setText("Listar");
+        jPanel2.add(ListarEspecialidadeCheckBox);
+        ListarEspecialidadeCheckBox.setBounds(290, 130, 60, 20);
+
+        CriarConvenioCheckBox.setText("Criar");
+        jPanel2.add(CriarConvenioCheckBox);
+        CriarConvenioCheckBox.setBounds(380, 90, 70, 20);
+
+        EditarConvenioCheckBox.setText("Editar");
+        jPanel2.add(EditarConvenioCheckBox);
+        EditarConvenioCheckBox.setBounds(380, 110, 60, 20);
+
+        ListarConvenioCheckBox.setText("Listar");
+        jPanel2.add(ListarConvenioCheckBox);
+        ListarConvenioCheckBox.setBounds(380, 130, 70, 20);
+
+        jPanel2.add(jComboBox1);
+        jComboBox1.setBounds(110, 20, 240, 22);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -233,19 +216,17 @@ public class EditarPerfil extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel1)
-                                                .addGap(0, 598, Short.MAX_VALUE))
-                                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addContainerGap())
+                                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel1))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap())
         );
 
@@ -253,25 +234,29 @@ public class EditarPerfil extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>
 
-    private void CriarFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {
+    private void jButton3_ApagarActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
 
-    private void CriarPacienteActionPerformed(java.awt.event.ActionEvent evt) {
+    private void jButton1_CancelarActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
 
-    private void CriarProntuarioActionPerformed(java.awt.event.ActionEvent evt) {
+    private void jButton2_SalvarActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void CriarFuncionarioCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
 
@@ -312,43 +297,38 @@ public class EditarPerfil extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify
-    private javax.swing.JComboBox<String> CriarConsulta;
-    private javax.swing.JComboBox<String> CriarConvenio;
-    private javax.swing.JComboBox<String> CriarEspecialidade;
-    private javax.swing.JComboBox<String> CriarFuncionario;
-    private javax.swing.JComboBox<String> CriarPaciente;
-    private javax.swing.JComboBox<String> CriarProntuario;
-    private javax.swing.JComboBox<String> EditarConsulta;
-    private javax.swing.JComboBox<String> EditarConvenio;
-    private javax.swing.JComboBox<String> EditarEspecialidade;
-    private javax.swing.JComboBox<String> EditarFuncionario;
-    private javax.swing.JComboBox<String> EditarPaciente;
-    private javax.swing.JComboBox<String> EditarProntuario;
-    private javax.swing.JComboBox<String> ListarConsulta;
-    private javax.swing.JComboBox<String> ListarConvenio;
-    private javax.swing.JComboBox<String> ListarEspecialidade;
-    private javax.swing.JComboBox<String> ListarFuncionario;
-    private javax.swing.JComboBox<String> ListarPaciente;
-    private javax.swing.JComboBox<String> ListarProntuario;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JCheckBox CriarConsultaCheckBox;
+    private javax.swing.JCheckBox CriarConvenioCheckBox;
+    private javax.swing.JCheckBox CriarEspecialidadeCheckBox;
+    private javax.swing.JCheckBox CriarFuncionarioCheckBox;
+    private javax.swing.JCheckBox CriarPacienteCheckBox;
+    private javax.swing.JCheckBox CriarProntuarioCheckBox;
+    private javax.swing.JCheckBox EditarConsultaCheckBox;
+    private javax.swing.JCheckBox EditarConvenioCheckBox;
+    private javax.swing.JCheckBox EditarEspecialidadeCheckBox;
+    private javax.swing.JCheckBox EditarFuncionarioCheckbox;
+    private javax.swing.JCheckBox EditarPacienteCheckBox;
+    private javax.swing.JCheckBox EditarProntuarioCheckBox;
+    private javax.swing.JCheckBox ListarConsultaCheckBox;
+    private javax.swing.JCheckBox ListarConvenioCheckBox;
+    private javax.swing.JCheckBox ListarEspecialidadeCheckBox;
+    private javax.swing.JCheckBox ListarFuncionarioCheckBox;
+    private javax.swing.JCheckBox ListarPacienteCheckBox;
+    private javax.swing.JCheckBox ListarProntuarioCheckBox;
+    private javax.swing.JButton jButton1_Cancelar;
+    private javax.swing.JButton jButton2_Salvar;
+    private javax.swing.JButton jButton3_Apagar;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
-    private javax.swing.JComboBox<String> jComboBox7;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration
 }
