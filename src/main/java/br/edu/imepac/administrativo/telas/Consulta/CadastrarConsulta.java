@@ -5,6 +5,8 @@
 
 package br.edu.imepac.administrativo.telas.Consulta;
 import java.sql.*;
+import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -15,44 +17,98 @@ public class CadastrarConsulta extends javax.swing.JFrame {
     private Statement Conexao;
 
     private void carregarComboboxes() {
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
         try {
             // Estabelece a conexão com o banco de dados
-            Connection conn = Conexao.getConnection();
+            conn = conectarBanco();  // Usa o método conectarBanco() para obter a conexão
 
             // Consulta para obter os médicos
             String sqlMedicos = "SELECT nome FROM medico";
-            Statement stmtMedicos = conn.createStatement();
-            ResultSet rsMedicos = stmtMedicos.executeQuery(sqlMedicos);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sqlMedicos);
 
             // Preencher o JComboBox de médicos
-            while (rsMedicos.next()) {
-                jComboBox1.addItem(rsMedicos.getString("nome"));
+            while (rs.next()) {
+                jComboBox2.addItem(rs.getString("nome"));
             }
 
             // Consulta para obter os pacientes
             String sqlPacientes = "SELECT nome FROM paciente";
-            Statement stmtPacientes = conn.createStatement();
-            ResultSet rsPacientes = stmtPacientes.executeQuery(sqlPacientes);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sqlPacientes);
 
             // Preencher o JComboBox de pacientes
-            while (rsPacientes.next()) {
-                jComboBox2.addItem(rsPacientes.getString("nome"));
+            while (rs.next()) {
+                jComboBox3.addItem(rs.getString("nome"));
             }
 
             // Consulta para obter os convênios
             String sqlConvenios = "SELECT nome FROM convenio";
-            Statement stmtConvenios = conn.createStatement();
-            ResultSet rsConvenios = stmtConvenios.executeQuery(sqlConvenios);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sqlConvenios);
 
             // Preencher o JComboBox de convênios
-            while (rsConvenios.next()) {
-                jComboBox3.addItem(rsConvenios.getString("nome"));
+            while (rs.next()) {
+                jComboBox4.addItem(rs.getString("nome"));
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            // Fechar recursos
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
+    // Método para verificar ou obter o ID do prontuário com base no paciente e médico
+    private int getProntuarioId(String nomePaciente, String nomeMedico) {
+        int id = 0;
+        try {
+            Connection conn = conectarBanco();
+
+            // Verifica se já existe um prontuário para o paciente e médico
+            String sql = "SELECT ID FROM prontuario WHERE paciente = ? AND medico = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, nomePaciente);
+            stmt.setString(2, nomeMedico);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                // Se já existir, retorna o ID do prontuário
+                id = rs.getInt("ID");
+            } else {
+                // Caso contrário, cria um novo prontuário
+                String insertSql = "INSERT INTO prontuario (paciente, medico) VALUES (?, ?)";
+                PreparedStatement insertStmt = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
+                insertStmt.setString(1, nomePaciente);
+                insertStmt.setString(2, nomeMedico);
+                insertStmt.executeUpdate();
+
+                // Obtém o ID do prontuário recém-criado
+                ResultSet generatedKeys = insertStmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    id = generatedKeys.getInt(1);
+                }
+                insertStmt.close();
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("Erro ao obter o ID do prontuário: " + e.getMessage());
+        }
+        return id;
+    }
+
+
 
     // Método para estabelecer a conexão com o banco de dados
     public Connection conectarBanco() {
@@ -75,6 +131,8 @@ public class CadastrarConsulta extends javax.swing.JFrame {
     public CadastrarConsulta() {
         initComponents();
         this.setLocationRelativeTo(null);
+        carregarComboboxes();
+
 
         // Adiciona o ActionListener ao botão "Salvar"
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -102,13 +160,16 @@ public class CadastrarConsulta extends javax.swing.JFrame {
         int pacienteId = getPacienteId(paciente);  // Método para pegar ID do paciente
         int convenioId = getConvenioId(convenio);  // Método para pegar ID do convênio
 
+        // Definir prontuario_id como NULL ou um valor válido
+        int prontuarioId = getProntuarioId(pacienteId); // Novo método que pode retornar o ID do prontuário ou -1 (nulo)
+
         // Conecta com o banco
         Connection conexao = conectarBanco();
         if (conexao != null) {
             // Realiza a inserção no banco
             try {
-                String sql = "INSERT INTO consulta (SINTOMA, DIAGNOSTICO, data_horario, esta_ativa, medico_id, paciente_id, convenio_id, atendente_id, prontuario_id, retorno) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                var stmt = conexao.prepareStatement(sql);
+                String sql = "INSERT INTO consulta (SINTOMA, DIAGNOSTICO, data_horario, esta_ativa, medico_id, paciente_id, convenio_id, prontuario_id, retorno) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement stmt = conexao.prepareStatement(sql);
 
                 // Atribui os valores aos parâmetros da consulta
                 stmt.setString(1, sintomas);  // Sintomas
@@ -118,17 +179,61 @@ public class CadastrarConsulta extends javax.swing.JFrame {
                 stmt.setInt(5, medicoId);  // Médico
                 stmt.setInt(6, pacienteId);  // Paciente
                 stmt.setInt(7, convenioId);  // Convênio
-                stmt.setInt(8, 1);  // Atendente (exemplo)
-                stmt.setInt(9, 1);  // Prontuário (exemplo)
-                stmt.setInt(10, retornoValor);  // Retorno (0 ou 1)
+                if (prontuarioId != -1) {
+                    stmt.setInt(8, prontuarioId);  // Prontuário (se encontrado)
+                } else {
+                    stmt.setNull(8, java.sql.Types.INTEGER);  // Caso não tenha prontuário, insere null
+                }
+                stmt.setInt(9, retornoValor);  // Retorno (0 ou 1)
 
                 // Executa a inserção
                 stmt.executeUpdate();
-                System.out.println("Consulta salva com sucesso!");
+
+                // Exibe a mensagem de sucesso
+                JOptionPane.showMessageDialog(null, "Consulta salva com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+                // Limpa os campos para nova inserção
+                limparCampos();
+
             } catch (SQLException e) {
                 System.out.println("Erro ao salvar a consulta: " + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Erro ao salvar a consulta: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+
+    // Método para limpar os campos
+    private void limparCampos() {
+        // Limpa os campos de texto
+        jTextField1.setText("");  // Data e Hora
+        jTextField2.setText("");  // Sintomas
+
+        // Limpa os JComboBox
+        jComboBox1.setSelectedIndex(0);  // Retorno (seleciona o primeiro item)
+        jComboBox2.setSelectedIndex(0);  // Médico (seleciona o primeiro item)
+        jComboBox3.setSelectedIndex(0);  // Paciente (seleciona o primeiro item)
+        jComboBox4.setSelectedIndex(0);  // Convênio (seleciona o primeiro item)
+    }
+
+    // Método para obter o ID do prontuário com base no paciente
+    private int getProntuarioId(int pacienteId) {
+        int id = -1;  // Retorna -1 se não encontrar o prontuário
+        try {
+            Connection conn = conectarBanco();
+            String sql = "SELECT ID FROM prontuario WHERE id_consulta = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, pacienteId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt("ID");
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar o ID do prontuário: " + e.getMessage());
+        }
+        return id;
     }
 
     // Método para obter o ID do médico com base no nome
@@ -136,21 +241,26 @@ public class CadastrarConsulta extends javax.swing.JFrame {
         int id = 0;
         try {
             Connection conn = conectarBanco();
-            String sql = "SELECT nome FROM medico WHERE id = ?";
+            String sql = "SELECT id FROM medico WHERE nome = ?";  // Corrigido: Buscando pelo nome do médico, não o ID
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, nomeMedico);
+            stmt.setString(1, nomeMedico);  // Passa o nome do médico para o SQL
             ResultSet rs = stmt.executeQuery();
+
             if (rs.next()) {
                 id = rs.getInt("id");
+            } else {
+                System.out.println("Médico não encontrado: " + nomeMedico);
             }
+
             rs.close();
             stmt.close();
             conn.close();
         } catch (SQLException e) {
-            System.out.println("Erro ao buscar o nome do médico: " + e.getMessage());
+            System.out.println("Erro ao buscar o ID do médico: " + e.getMessage());
         }
         return id;
     }
+
 
     // Método para obter o ID do paciente com base no nome
     private int getPacienteId(String nomePaciente) {

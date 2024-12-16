@@ -476,6 +476,9 @@ public class EditarFuncionario extends javax.swing.JFrame {
         jButton_Salvar.setText("Salvar");
 
         jButton10_Cancel.setText("Cancelar");
+        jButton10_Cancel.addActionListener(e -> {
+            this.dispose();  // Fecha a janela
+        });
 
         jLabel1.setText("Funcionario");
 

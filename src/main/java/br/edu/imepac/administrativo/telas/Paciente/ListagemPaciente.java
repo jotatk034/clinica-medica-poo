@@ -39,8 +39,6 @@ public class ListagemPaciente extends javax.swing.JFrame {
                 Object[] row = {
                         rs.getInt("id"),               // ID do paciente
                         rs.getString("NOME"),          // Nome
-                        rs.getString("USUARIO"),       // Usuário
-                        rs.getString("SENHA"),         // Senha
                         rs.getString("SEXO"),          // Sexo
                         rs.getString("CPF"),           // CPF
                         rs.getString("RUA"),           // Rua
@@ -93,7 +91,7 @@ public class ListagemPaciente extends javax.swing.JFrame {
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {},
                 new String [] {
-                        "ID", "Nome", "Usuário", "Senha", "Sexo", "CPF", "Rua", "Número",
+                        "ID", "Nome", "Sexo", "CPF", "Rua", "Número",
                         "Complemento", "Bairro", "Cidade", "Estado", "Contato", "E-mail", "Nascimento"
                 }
         ) {

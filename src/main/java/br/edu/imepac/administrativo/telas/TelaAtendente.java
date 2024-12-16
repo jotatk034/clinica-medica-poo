@@ -11,8 +11,8 @@ import br.edu.imepac.administrativo.telas.Consulta.CadastrarConsulta;
 import br.edu.imepac.administrativo.telas.Consulta.EditarConsulta;
 import br.edu.imepac.administrativo.telas.Consulta.ListagemConsulta;
 import br.edu.imepac.administrativo.telas.Paciente.CadastrarPaciente;
-import br.edu.imepac.administrativo.telas.Paciente.ListagemPaciente;
 import br.edu.imepac.administrativo.telas.Paciente.EditarPaciente;
+import br.edu.imepac.administrativo.telas.Paciente.ListagemPaciente;
 import br.edu.imepac.administrativo.telas.Prontuario.CadastrarProntuario;
 import br.edu.imepac.administrativo.telas.Prontuario.EditarProntuario;
 import br.edu.imepac.administrativo.telas.Prontuario.ListagemProntuario;
@@ -30,10 +30,23 @@ public class TelaAtendente extends javax.swing.JFrame {
      */
     public TelaAtendente() {
         initComponents();
-        this.setLocationRelativeTo(null);
-        
+        this.setLocationRelativeTo(null); // Centraliza a janela na tela
+
+        // Associa o ActionListener ao botão
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt); // Chama o método quando o botão é clicado
+            }
+        });
     }
-    
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+        this.dispose(); // Fecha a tela atual
+
+        // Abre a tela TelaloginADM
+        TelaloginADM loginADM = new TelaloginADM(); // Cria uma nova instância da tela TelaloginADM
+        loginADM.setVisible(true); // Torna a tela visível
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -296,7 +309,11 @@ public class TelaAtendente extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Atendente");
 
-        jButton1.setText("Sair");
+
+    // Altera o texto do botão para "Sair"
+    jButton1.setText("Sair");
+
+
 
         javax.swing.GroupLayout BaseLayout = new javax.swing.GroupLayout(Base);
         Base.setLayout(BaseLayout);

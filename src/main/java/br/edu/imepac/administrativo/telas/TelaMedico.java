@@ -141,6 +141,11 @@ public class TelaMedico extends javax.swing.JFrame {
         jLabel1.setText("Médico");
 
         jButton1.setText("Sair");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout BaseLayout = new javax.swing.GroupLayout(Base);
         Base.setLayout(BaseLayout);
@@ -198,7 +203,7 @@ public class TelaMedico extends javax.swing.JFrame {
         // TODO add your handling code here:
         CadastrarProntuario telaCadastrarProntuario = new CadastrarProntuario();
         telaCadastrarProntuario.setVisible(true);
-        dispose();
+
         
     }//GEN-LAST:event_jButton27ActionPerformed
 
@@ -206,22 +211,28 @@ public class TelaMedico extends javax.swing.JFrame {
         // TODO add your handling code here:
         ListagemPaciente telaListarPaciente = new ListagemPaciente();
         telaListarPaciente.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton25ActionPerformed
 
     private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
         // TODO add your handling code here:
         EditarProntuario telaEditarProntuario = new EditarProntuario();
         telaEditarProntuario.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton26ActionPerformed
 
     private void jButton28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton28ActionPerformed
         // TODO add your handling code here:
         ListagemProntuario telaListarProntuario = new ListagemProntuario();
         telaListarProntuario.setVisible(true);
-        dispose();
+
     }//GEN-LAST:event_jButton28ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+    TelaloginADM loginADM = new TelaloginADM(); // Cria uma nova instância da tela TelaloginADM
+    loginADM.setVisible(true); // Torna a tela visívelTODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

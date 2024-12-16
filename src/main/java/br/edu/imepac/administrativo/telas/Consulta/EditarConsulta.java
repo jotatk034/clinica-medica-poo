@@ -14,6 +14,10 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.sql.*;
+import javax.swing.*;
+import java.awt.event.*;
+import java.text.*;
 
 /**
  *
@@ -21,95 +25,212 @@ import java.util.Date;
  */
 public class EditarConsulta extends javax.swing.JFrame {
 
-    private Label jTextFieldId;
 
-    public class Conexao {
-        public static Connection getConnection() throws SQLException {
-            try {
-                // Alterar os dados conforme seu banco de dados
-                String url = "jdbc:mysql://localhost:3306/clinica_medica_poo";
-                String user = "root";
-                String password = "12345";
-                return DriverManager.getConnection(url, user, password);
-            } catch (SQLException e) {
-                throw new SQLException("Erro ao conectar ao banco de dados.", e);
-            }
+
+    // Conexão com o banco de dados
+    private Connection conectarBanco() {
+        Connection conexao = null;
+        try {
+            String url = "jdbc:mysql://localhost:3306/clinica_medica_poo";
+            String usuario = "root";
+            String senha = "12345";
+            conexao = DriverManager.getConnection(url, usuario, senha);
+            System.out.println("Conexão estabelecida com o banco de dados!");
+        } catch (SQLException e) {
+            System.out.println("Erro ao conectar com o banco de dados: " + e.getMessage());
         }
+        return conexao;
     }
 
-    private void carregarMedicos() {
-        try {
-            Connection conn = Conexao.getConnection();
-            String sql = "SELECT * FROM medico";
-            java.sql.Statement stmt = conn.createStatement();
-            java.sql.ResultSet rs = stmt.executeQuery(sql);
+    // Carregar dados para os comboboxes
+    private void carregarComboboxes() {
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
 
+        try {
+            conn = conectarBanco();
+
+            // Carrega os médicos
+            String sqlMedicos = "SELECT nome FROM medico";
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sqlMedicos);
             while (rs.next()) {
-                String nomeMedico = rs.getString("nome");
-                jComboBox2.addItem(nomeMedico);  // Preenche o JComboBox de médicos
+                jComboBox2.addItem(rs.getString("nome"));
+            }
+
+            // Carrega os pacientes
+            String sqlPacientes = "SELECT nome FROM paciente";
+            rs = stmt.executeQuery(sqlPacientes);
+            while (rs.next()) {
+                jComboBox3.addItem(rs.getString("nome"));
+            }
+
+            // Carrega os convênios
+            String sqlConvenios = "SELECT nome FROM convenio";
+            rs = stmt.executeQuery(sqlConvenios);
+            while (rs.next()) {
+                jComboBox4.addItem(rs.getString("nome"));
+            }
+
+            // Carrega os IDs das consultas (para edição)
+            String sqlConsultas = "SELECT id FROM consulta";
+            rs = stmt.executeQuery(sqlConsultas);
+            while (rs.next()) {
+                jComboBox7.addItem(String.valueOf(rs.getInt("id")));  // Converte o ID para String antes de adicionar
+            }
+
+            // Carrega os atendentes
+            String sqlAtendentes = "SELECT nome FROM atendente";
+            rs = stmt.executeQuery(sqlAtendentes);
+            while (rs.next()) {
+                jComboBox6.addItem(rs.getString("nome"));  // jComboBox6 é o combo para Atendente
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    /** Creates new form CadastrarConsulta */
+
+    // Método para carregar os dados da consulta com base no ID
+    private void carregarDadosConsultaParaEdicao() {
+        // Pegando o ID da consulta como String primeiro
+        String selectedItem = (String) jComboBox7.getSelectedItem();
+
+        // Convertendo o String para Integer
+        Integer idConsulta = Integer.valueOf(selectedItem);
+
+        if (idConsulta != null) {
+            try {
+                Connection conn = conectarBanco();
+                String sql = "SELECT * FROM consulta WHERE id = ?";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setInt(1, idConsulta);  // Passando o ID como Integer para a consulta
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next()) {
+                    // Preenche os campos com os dados da consulta
+                    jTextField1.setText(rs.getString("data_horario"));
+                    jTextField2.setText(rs.getString("sintoma"));
+
+                    // Preenche os campos de médicos, pacientes, convênios, atendentes
+                    jComboBox2.setSelectedItem(rs.getString("medico_id"));
+                    jComboBox3.setSelectedItem(rs.getString("paciente_id"));
+                    jComboBox4.setSelectedItem(rs.getString("convenio_id"));
+                    jComboBox6.setSelectedItem(rs.getString("atendente_id"));
+                }
+                rs.close();
+                stmt.close();
+                conn.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Erro ao carregar os dados da consulta: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    private int getAtendenteId(String nomeAtendente) {
+        int id = 0;
+        try {
+            Connection conn = conectarBanco();
+            String sql = "SELECT id FROM atendente WHERE nome = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, nomeAtendente);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt("id");
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar ID do atendente: " + e.getMessage());
+        }
+        return id;
+    }
+
+
+    // Método para salvar a consulta (editar a consulta existente)
+    private void salvarConsulta() {
+        // Obter dados dos campos
+        String dataHora = jTextField1.getText();  // Data e Hora
+        String sintomas = jTextField2.getText();  // Sintomas
+        String medico = jComboBox2.getSelectedItem().toString();  // Médico
+        String paciente = jComboBox3.getSelectedItem().toString();  // Paciente
+        String convenio = jComboBox4.getSelectedItem().toString();  // Convênio
+        String atendente = jComboBox6.getSelectedItem().toString();  // Atendente
+
+        // Obter o ID da consulta para atualizar
+        int idConsulta = (int) jComboBox7.getSelectedItem();  // jComboBox7 é o combo para ID da consulta
+
+        // Obter o ID do atendente
+        int idAtendente = getAtendenteId(atendente);  // Função para buscar o ID do atendente
+
+        // Atualizar dados no banco
+        try {
+            Connection conn = conectarBanco();
+            String sql = "UPDATE consulta SET data_horario = ?, sintoma = ?, medico_id = ?, paciente_id = ?, convenio_id = ?, atendente_id = ? WHERE id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, dataHora);
+            stmt.setString(2, sintomas);
+            stmt.setString(3, medico);
+            stmt.setString(4, paciente);
+            stmt.setString(5, convenio);
+            stmt.setInt(6, idAtendente);  // Passando o ID do atendente corretamente
+            stmt.setInt(7, idConsulta);
+
+            // Executa a atualização
+            stmt.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Consulta atualizada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException e) {
+            System.out.println("Erro ao salvar a consulta: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao salvar a consulta: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+
+    // Limpar campos para nova inserção
+    private void limparCampos() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jComboBox1.setSelectedIndex(0);  // Retorno
+        jComboBox2.setSelectedIndex(0);  // Médico
+        jComboBox3.setSelectedIndex(0);  // Paciente
+        jComboBox4.setSelectedIndex(0);  // Convênio
+    }
+
+    // Método do construtor
     public EditarConsulta() {
         initComponents();
         this.setLocationRelativeTo(null);
-        carregarMedicos();
+        carregarComboboxes();
+        carregarDadosConsultaParaEdicao();
+        jComboBox7.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                carregarDadosConsultaParaEdicao();
+            }
+        });
+
+        jToggleButton1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                salvarConsulta();
+            }
+        });
     }
 
-    private void salvarConsulta() {
-        try {
-            Connection conn = Conexao.getConnection();
-
-            String sql = "UPDATE consulta SET data_hora = ?, sintomas = ?, retorno = ?, medico = ?, paciente = ?, convenio = ?, status = ?, atendente = ? WHERE id = ?";
-            java.sql.PreparedStatement stmt = conn.prepareStatement(sql);
-
-            // Pegue os dados dos campos e defina no PreparedStatement
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-            Date date = sdf.parse(jTextField1.getText());
-            stmt.setTimestamp(1, new java.sql.Timestamp(date.getTime()));  // Data e Hora
-
-            stmt.setString(2, jTextField2.getText());  // Sintomas
-            stmt.setString(3, jComboBox1.getSelectedItem().toString());  // Retorno
-            stmt.setString(4, jComboBox2.getSelectedItem().toString());  // Médico
-            stmt.setString(5, jComboBox3.getSelectedItem().toString());  // Paciente
-            stmt.setString(6, jComboBox4.getSelectedItem().toString());  // Convênio
-            stmt.setString(7, jComboBox5.getSelectedItem().toString());  // Status
-            stmt.setString(8, jComboBox6.getSelectedItem().toString());  // Atendente
-            stmt.setInt(9, Integer.parseInt(jTextFieldId.getText()));  // ID da consulta
 
 
-            stmt.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Consulta salva com sucesso!");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Erro ao salvar consulta.");
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
-    private void apagarConsulta() {
-        try {
-            Connection conn = Conexao.getConnection();
 
-            String sql = "DELETE FROM consulta WHERE id = ?";
-            java.sql.PreparedStatement stmt = conn.prepareStatement(sql);
-
-            // Pega o ID da consulta a ser apagada
-            stmt.setInt(1, Integer.parseInt(jTextField1.getText()));  // ID da consulta
-            stmt.executeUpdate();
-
-            JOptionPane.showMessageDialog(this, "Consulta apagada com sucesso!");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Erro ao apagar consulta.");
-        }
-    }
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -138,12 +259,12 @@ public class EditarConsulta extends javax.swing.JFrame {
         jToggleButton1 = new javax.swing.JToggleButton();
         jButton1_Cancelar = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jComboBox5 = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
         jComboBox6 = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
+        jComboBox7 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -217,27 +338,26 @@ public class EditarConsulta extends javax.swing.JFrame {
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(jLabel4)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(jLabel5)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel6)
-                                .addComponent(jLabel7))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(jLabel8)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextField3)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -263,7 +383,7 @@ public class EditarConsulta extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -400,6 +520,7 @@ public class EditarConsulta extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JComboBox<String> jComboBox6;
+    private javax.swing.JComboBox<String> jComboBox7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -414,7 +535,6 @@ public class EditarConsulta extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 

@@ -23,7 +23,7 @@ public class CadastrarPaciente extends javax.swing.JFrame {
     public class Conexao {
         private static final String URL = "jdbc:mysql://localhost:3306/clinica_medica_poo"; // URL do banco de dados
         private static final String USER = "root"; // Usuário do banco
-        private static final String PASSWORD = "0101"; // Senha do banco
+        private static final String PASSWORD = "12345"; // Senha do banco
 
         public static Connection getConnection() throws SQLException {
             try {
@@ -40,6 +40,7 @@ public class CadastrarPaciente extends javax.swing.JFrame {
      */
     public CadastrarPaciente() {
         initComponents();
+        this.setLocationRelativeTo(null);
         jButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -52,7 +53,18 @@ public class CadastrarPaciente extends javax.swing.JFrame {
         String cpf = jTextField4.getText();
         String dataNascimento = jTextField6.getText();
         String idade = jTextField2.getText();
-        String sexo = (String) jComboBox4.getSelectedItem();
+        String sexoSelecionado = (String) jComboBox4.getSelectedItem();
+        String sexo;
+
+        // Determina o valor de sexo como M ou F
+        if ("Masculino".equalsIgnoreCase(sexoSelecionado)) {
+            sexo = "M";
+        } else if ("Feminino".equalsIgnoreCase(sexoSelecionado)) {
+            sexo = "F";
+        } else {
+            sexo = null; // ou algum valor padrão, dependendo do contexto
+        }
+
         String estado = jTextField7.getText();
         String bairro = jTextField8.getText();
         String rua = jTextField5.getText();
@@ -63,13 +75,13 @@ public class CadastrarPaciente extends javax.swing.JFrame {
         String email = jTextField12.getText();
 
         // Validação simples dos campos
-        if (nome.isEmpty() || cpf.isEmpty() || dataNascimento.isEmpty()) {
+        if (nome.isEmpty() || cpf.isEmpty() || dataNascimento.isEmpty() || sexo == null) {
             JOptionPane.showMessageDialog(this, "Por favor, preencha todos os campos obrigatórios.", "Erro", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try (Connection connection = Conexao.getConnection()) {
-            String sql = "INSERT INTO paciente (nome, cpf, data_nascimento, idade, sexo, estado, bairro, rua, numero, cidade, complemento, contato, email) "
+            String sql = "INSERT INTO paciente (NOME, CPF, DATANASCIMENTO, IDADE, SEXO, ESTADO, BAIRRO, RUA, NUMERO, COMPLEMENTO, CIDADE, CONTATO, EMAIL) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                 stmt.setString(1, nome);
@@ -96,6 +108,7 @@ public class CadastrarPaciente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Erro ao conectar ao banco de dados: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
+
 
     private void limparCampos() {
         jTextField1.setText("");
@@ -203,6 +216,9 @@ public class CadastrarPaciente extends javax.swing.JFrame {
         jButton1.setText("Salvar");
 
         jButton2.setText("Cancelar");
+        jButton2.addActionListener(e -> {
+            this.dispose();  // Fecha a janela
+        });
 
         jLabel3.setText("Idade");
 

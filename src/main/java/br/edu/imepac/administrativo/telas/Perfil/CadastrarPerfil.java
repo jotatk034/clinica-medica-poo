@@ -83,6 +83,9 @@ public class CadastrarPerfil extends javax.swing.JFrame {
         jLabel7.setText("Convênio");
 
         jButton1.setText("Cancelar");
+        jButton1.addActionListener(e -> {
+            this.dispose();  // Fecha a janela
+        });
 
         jButton2.setText("Salvar ");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -433,6 +436,7 @@ public class CadastrarPerfil extends javax.swing.JFrame {
             }
         });
     }
+
 
 
     // Variables declaration - do not modify

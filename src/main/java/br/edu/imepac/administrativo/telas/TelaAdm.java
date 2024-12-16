@@ -480,6 +480,11 @@ public class TelaAdm extends javax.swing.JFrame {
         jLabel1.setText("Administrador");
 
         jButton1.setText("Sair");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout BaseLayout = new javax.swing.GroupLayout(Base);
         Base.setLayout(BaseLayout);
@@ -617,7 +622,7 @@ public class TelaAdm extends javax.swing.JFrame {
 
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
         // TODO add your handling code here:
-        br.edu.imepac.administrativo.telas.EditarPaciente TelaEditarPaciente = new EditarPaciente();
+        EditarPaciente TelaEditarPaciente = new EditarPaciente();
         TelaEditarPaciente.setVisible(true);
 
     }//GEN-LAST:event_jButton23ActionPerformed
@@ -699,6 +704,15 @@ public class TelaAdm extends javax.swing.JFrame {
         telaListarEspecialidade.setVisible(true);
 
     }//GEN-LAST:event_jButton31ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    
+    // Abre a tela TelaloginADM
+    TelaloginADM loginADM = new TelaloginADM(); // Cria uma nova instância da tela TelaloginADM
+    loginADM.setVisible(true); // Torna a tela visível
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

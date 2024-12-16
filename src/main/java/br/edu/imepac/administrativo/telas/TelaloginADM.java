@@ -171,10 +171,10 @@ public class TelaloginADM extends javax.swing.JFrame {
 
             if (tipoFuncionarioId != -1) {
                 // Redireciona para a tela de acordo com o tipo de funcionário
-                if (tipoFuncionarioId == 1) {
+                if (tipoFuncionarioId == 2) {
                     TelaMedico telaMedico = new TelaMedico();
                     telaMedico.setVisible(true);
-                } else if (tipoFuncionarioId == 2) {
+                } else if (tipoFuncionarioId == 1) {
                     TelaAtendente telaAtendente = new TelaAtendente();
                     telaAtendente.setVisible(true);
                 } else if (tipoFuncionarioId == 3) {

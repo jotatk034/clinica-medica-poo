@@ -180,6 +180,9 @@ public class CadastrarProntuario extends javax.swing.JFrame {
         jButton1.setText("Salvar");
 
         jButton2.setText("Cancelar");
+        jButton2.addActionListener(e -> {
+            this.dispose();  // Fecha a janela
+        });
 
         jLabel7.setText("Paciente");
 

@@ -190,6 +190,9 @@ public class EditarProntuario extends javax.swing.JFrame {
         jButton1.addActionListener(evt -> salvarDados());
 
         jButton2.setText("Cancelar");
+        jButton2.addActionListener(e -> {
+            this.dispose();  // Fecha a janela
+        });
 
         jLabel7.setText("Paciente");
 
