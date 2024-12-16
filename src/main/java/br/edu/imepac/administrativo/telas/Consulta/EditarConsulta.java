@@ -25,8 +25,6 @@ import java.text.*;
  */
 public class EditarConsulta extends javax.swing.JFrame {
 
-
-
     // Conexão com o banco de dados
     private Connection conectarBanco() {
         Connection conexao = null;
@@ -100,14 +98,13 @@ public class EditarConsulta extends javax.swing.JFrame {
         }
     }
 
-
     // Método para carregar os dados da consulta com base no ID
     private void carregarDadosConsultaParaEdicao() {
         // Pegando o ID da consulta como String primeiro
         String selectedItem = (String) jComboBox7.getSelectedItem();
 
         // Convertendo o String para Integer
-        Integer idConsulta = Integer.valueOf(selectedItem);
+        Integer idConsulta = Integer.parseInt(selectedItem);
 
         if (idConsulta != null) {
             try {
@@ -123,10 +120,10 @@ public class EditarConsulta extends javax.swing.JFrame {
                     jTextField2.setText(rs.getString("sintoma"));
 
                     // Preenche os campos de médicos, pacientes, convênios, atendentes
-                    jComboBox2.setSelectedItem(rs.getString("medico_id"));
-                    jComboBox3.setSelectedItem(rs.getString("paciente_id"));
-                    jComboBox4.setSelectedItem(rs.getString("convenio_id"));
-                    jComboBox6.setSelectedItem(rs.getString("atendente_id"));
+                    jComboBox2.setSelectedItem(getNomeMedico(rs.getInt("medico_id")));
+                    jComboBox3.setSelectedItem(getNomePaciente(rs.getInt("paciente_id")));
+                    jComboBox4.setSelectedItem(getNomeConvenio(rs.getInt("convenio_id")));
+                    jComboBox6.setSelectedItem(getNomeAtendente(rs.getInt("atendente_id")));
                 }
                 rs.close();
                 stmt.close();
@@ -136,26 +133,87 @@ public class EditarConsulta extends javax.swing.JFrame {
             }
         }
     }
-    private int getAtendenteId(String nomeAtendente) {
-        int id = 0;
+
+    // Métodos para obter nomes a partir dos IDs
+    private String getNomeMedico(int idMedico) {
+        String nome = "";
         try {
             Connection conn = conectarBanco();
-            String sql = "SELECT id FROM atendente WHERE nome = ?";
+            String sql = "SELECT nome FROM medico WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, nomeAtendente);
+            stmt.setInt(1, idMedico);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                id = rs.getInt("id");
+                nome = rs.getString("nome");
             }
             rs.close();
             stmt.close();
             conn.close();
         } catch (SQLException e) {
-            System.out.println("Erro ao buscar ID do atendente: " + e.getMessage());
+            System.out.println("Erro ao buscar nome do médico: " + e.getMessage());
         }
-        return id;
+        return nome;
     }
 
+    private String getNomePaciente(int idPaciente) {
+        String nome = "";
+        try {
+            Connection conn = conectarBanco();
+            String sql = "SELECT nome FROM paciente WHERE id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, idPaciente);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                nome = rs.getString("nome");
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar nome do paciente: " + e.getMessage());
+        }
+        return nome;
+    }
+
+    private String getNomeConvenio(int idConvenio) {
+        String nome = "";
+        try {
+            Connection conn = conectarBanco();
+            String sql = "SELECT nome FROM convenio WHERE id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, idConvenio);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                nome = rs.getString("nome");
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar nome do convênio: " + e.getMessage());
+        }
+        return nome;
+    }
+
+    private String getNomeAtendente(int idAtendente) {
+        String nome = "";
+        try {
+            Connection conn = conectarBanco();
+            String sql = "SELECT nome FROM atendente WHERE id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, idAtendente);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                nome = rs.getString("nome");
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar nome do atendente: " + e.getMessage());
+        }
+        return nome;
+    }
 
     // Método para salvar a consulta (editar a consulta existente)
     private void salvarConsulta() {
@@ -167,11 +225,14 @@ public class EditarConsulta extends javax.swing.JFrame {
         String convenio = jComboBox4.getSelectedItem().toString();  // Convênio
         String atendente = jComboBox6.getSelectedItem().toString();  // Atendente
 
-        // Obter o ID da consulta para atualizar
-        int idConsulta = (int) jComboBox7.getSelectedItem();  // jComboBox7 é o combo para ID da consulta
+        // Obter o ID do médico, paciente, convênio e atendente
+        int medicoId = getMedicoId(medico);  // Método para pegar ID do médico
+        int pacienteId = getPacienteId(paciente);  // Método para pegar ID do paciente
+        int convenioId = getConvenioId(convenio);  // Método para pegar ID do convênio
+        int idAtendente = getAtendenteId(atendente);  // Método para pegar ID do atendente
 
-        // Obter o ID do atendente
-        int idAtendente = getAtendenteId(atendente);  // Função para buscar o ID do atendente
+        // Obter o ID da consulta para atualizar
+        int idConsulta = Integer.parseInt(jComboBox7.getSelectedItem().toString());  // jComboBox7 é o combo para ID da consulta
 
         // Atualizar dados no banco
         try {
@@ -181,10 +242,10 @@ public class EditarConsulta extends javax.swing.JFrame {
 
             stmt.setString(1, dataHora);
             stmt.setString(2, sintomas);
-            stmt.setString(3, medico);
-            stmt.setString(4, paciente);
-            stmt.setString(5, convenio);
-            stmt.setInt(6, idAtendente);  // Passando o ID do atendente corretamente
+            stmt.setInt(3, medicoId);  // Usar ID do médico
+            stmt.setInt(4, pacienteId);  // Usar ID do paciente
+            stmt.setInt(5, convenioId);  // Usar ID do convênio
+            stmt.setInt(6, idAtendente);  // Usar ID do atendente
             stmt.setInt(7, idConsulta);
 
             // Executa a atualização
@@ -197,15 +258,99 @@ public class EditarConsulta extends javax.swing.JFrame {
         }
     }
 
+    // Método para buscar o ID do atendente a partir do nome
+    private int getAtendenteId(String nomeAtendente) {
+        int id = 0;
+        try {
+            Connection conn = conectarBanco();
+            String sql = "SELECT id FROM atendente WHERE nome = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, nomeAtendente);  // Usando nomeAtendente como parâmetro
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt("id");
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar ID do atendente: " + e.getMessage());
+        }
+        return id;
+    }
+    private int getMedicoId(String nomeMedico) {
+        int id = 0;
+        try {
+            Connection conn = conectarBanco();
+            String sql = "SELECT id FROM medico WHERE nome = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, nomeMedico);  // Passando o nome do médico
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                id = rs.getInt("id");
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar ID do médico: " + e.getMessage());
+        }
+        return id;
+    }
+    private int getPacienteId(String nomePaciente) {
+        int id = 0;
+        try {
+            Connection conn = conectarBanco();
+            String sql = "SELECT id FROM paciente WHERE nome = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, nomePaciente);  // Passando o nome do paciente
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                id = rs.getInt("id");
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar ID do paciente: " + e.getMessage());
+        }
+        return id;
+    }
+    private int getConvenioId(String nomeConvenio) {
+        int id = 0;
+        try {
+            Connection conn = conectarBanco();
+            String sql = "SELECT id FROM convenio WHERE nome = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, nomeConvenio);  // Passando o nome do convênio
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                id = rs.getInt("id");
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar ID do convênio: " + e.getMessage());
+        }
+        return id;
+    }
+
+
+
+
 
     // Limpar campos para nova inserção
     private void limparCampos() {
         jTextField1.setText("");
         jTextField2.setText("");
-        jComboBox1.setSelectedIndex(0);  // Retorno
         jComboBox2.setSelectedIndex(0);  // Médico
         jComboBox3.setSelectedIndex(0);  // Paciente
         jComboBox4.setSelectedIndex(0);  // Convênio
+        jComboBox6.setSelectedIndex(0);  // Atendente
     }
 
     // Método do construtor
@@ -214,6 +359,7 @@ public class EditarConsulta extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         carregarComboboxes();
         carregarDadosConsultaParaEdicao();
+
         jComboBox7.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 carregarDadosConsultaParaEdicao();
@@ -226,6 +372,52 @@ public class EditarConsulta extends javax.swing.JFrame {
             }
         });
     }
+    // Método para apagar a consulta
+    private void apagarConsulta() {
+        // Pega o ID da consulta selecionada
+        String selectedItem = (String) jComboBox7.getSelectedItem();
+
+        // Converte o ID para Integer
+        Integer idConsulta = Integer.valueOf(selectedItem);
+
+        if (idConsulta != null) {
+            int confirm = JOptionPane.showConfirmDialog(
+                    null,
+                    "Tem certeza que deseja apagar a consulta com ID " + idConsulta + "?",
+                    "Confirmar Exclusão",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                try {
+                    // Conectar com o banco de dados
+                    Connection conn = conectarBanco();
+
+                    // Preparar a SQL para excluir a consulta
+                    String sql = "DELETE FROM consulta WHERE id = ?";
+                    PreparedStatement stmt = conn.prepareStatement(sql);
+                    stmt.setInt(1, idConsulta);  // Passa o ID da consulta para a SQL
+
+                    // Executar a exclusão
+                    stmt.executeUpdate();
+
+                    // Confirmar a exclusão
+                    JOptionPane.showMessageDialog(null, "Consulta apagada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+                    // Limpar os campos após a exclusão
+                    limparCampos();
+                    carregarComboboxes();  // Atualizar os combo boxes
+
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Erro ao apagar a consulta: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione uma consulta para apagar.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+
 
 
 
@@ -324,6 +516,11 @@ public class EditarConsulta extends javax.swing.JFrame {
         jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecionar o atendente", " " }));
 
         jButton2.setText("Apagar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                apagarConsulta();  // Chama o método para apagar a consulta
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
