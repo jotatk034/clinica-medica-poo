@@ -617,8 +617,8 @@ public class TelaAdm extends javax.swing.JFrame {
 
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
         // TODO add your handling code here:
-        EditarPaciente telaEditarPaciente = new EditarPaciente();
-        telaEditarPaciente.setVisible(true);
+        br.edu.imepac.administrativo.telas.EditarPaciente TelaEditarPaciente = new EditarPaciente();
+        TelaEditarPaciente.setVisible(true);
 
     }//GEN-LAST:event_jButton23ActionPerformed
 
