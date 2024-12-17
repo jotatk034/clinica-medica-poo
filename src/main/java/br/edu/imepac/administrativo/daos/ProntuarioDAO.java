@@ -8,28 +8,26 @@ import java.util.List;
 public class ProntuarioDAO {
 
     public void criar(Prontuario prontuario) throws SQLException {
-        String sql = "INSERT INTO Prontuario (descricao, data, pacienteId) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Prontuario (RECEITUARIO, OBSERVACOES) VALUES (?, ?)";
         try (Connection conn = ConexaoDatabase.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, prontuario.getDescricao());
-            stmt.setDate(2, Date.valueOf(prontuario.getData()));
-            stmt.setInt(3, prontuario.getPacienteId());
+            stmt.setString(1, prontuario.getReceituario());
+            stmt.setString(2, prontuario.getObservacoes());
             stmt.executeUpdate();
         }
     }
 
     public Prontuario ler(int id) throws SQLException {
-        String sql = "SELECT * FROM Prontuario WHERE id = ?";
+        String sql = "SELECT * FROM Prontuario WHERE ID = ?";
         try (Connection conn = ConexaoDatabase.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 Prontuario prontuario = new Prontuario();
-                prontuario.setId(rs.getInt("id"));
-                prontuario.setDescricao(rs.getString("descricao"));
-                prontuario.setData(rs.getDate("data").toLocalDate());
-                prontuario.setPacienteId(rs.getInt("pacienteId"));
+                prontuario.setId(rs.getInt("ID"));
+                prontuario.setReceituario(rs.getString("RECEITUARIO"));
+                prontuario.setObservacoes(rs.getString("OBSERVACOES"));
                 return prontuario;
             }
         }
@@ -37,19 +35,18 @@ public class ProntuarioDAO {
     }
 
     public void atualizar(Prontuario prontuario) throws SQLException {
-        String sql = "UPDATE Prontuario SET descricao = ?, data = ?, pacienteId = ? WHERE id = ?";
+        String sql = "UPDATE Prontuario SET RECEITUARIO = ?, OBSERVACOES = ? WHERE ID = ?";
         try (Connection conn = ConexaoDatabase.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, prontuario.getDescricao());
-            stmt.setDate(2, Date.valueOf(prontuario.getData()));
-            stmt.setInt(3, prontuario.getPacienteId());
-            stmt.setInt(4, prontuario.getId());
+            stmt.setString(1, prontuario.getReceituario());
+            stmt.setString(2, prontuario.getObservacoes());
+            stmt.setInt(3, prontuario.getId());
             stmt.executeUpdate();
         }
     }
 
     public void deletar(int id) throws SQLException {
-        String sql = "DELETE FROM Prontuario WHERE id = ?";
+        String sql = "DELETE FROM Prontuario WHERE ID = ?";
         try (Connection conn = ConexaoDatabase.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -65,10 +62,9 @@ public class ProntuarioDAO {
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 Prontuario prontuario = new Prontuario();
-                prontuario.setId(rs.getInt("id"));
-                prontuario.setDescricao(rs.getString("descricao"));
-                prontuario.setData(rs.getDate("data").toLocalDate());
-                prontuario.setPacienteId(rs.getInt("pacienteId"));
+                prontuario.setId(rs.getInt("ID"));
+                prontuario.setReceituario(rs.getString("RECEITUARIO"));
+                prontuario.setObservacoes(rs.getString("OBSERVACOES"));
                 prontuarios.add(prontuario);
             }
         }

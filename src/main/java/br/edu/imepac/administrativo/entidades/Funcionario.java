@@ -19,25 +19,10 @@ public class Funcionario {
     private String email;
     private LocalDate dataNascimento;
     private Especialidade especialidade;
-    private EnumTipoFuncionario tipoFuncionario;
+    private EnumTipoFuncionario tipoFuncionario;  // Representando o tipo de funcionário
     private Perfil perfil;
 
-    public Perfil getPerfil() {
-        return perfil;
-    }
-
-    public void setPerfil(Perfil perfil) {
-        this.perfil = perfil;
-    }
-
-    public Especialidade getEspecialidade() {
-        return especialidade;
-    }
-
-    public void setEspecialidade(Especialidade especialidade) {
-        this.especialidade = especialidade;
-    }
-
+    // Getters e Setters
 
     public int getId() {
         return id;
@@ -159,6 +144,14 @@ public class Funcionario {
         this.dataNascimento = dataNascimento;
     }
 
+    public Especialidade getEspecialidade() {
+        return especialidade;
+    }
+
+    public void setEspecialidade(Especialidade especialidade) {
+        this.especialidade = especialidade;
+    }
+
     public EnumTipoFuncionario getTipoFuncionario() {
         return tipoFuncionario;
     }
@@ -166,5 +159,12 @@ public class Funcionario {
     public void setTipoFuncionario(EnumTipoFuncionario tipoFuncionario) {
         this.tipoFuncionario = tipoFuncionario;
     }
-}
 
+    public Perfil getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
+    }
+}
